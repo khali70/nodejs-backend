@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import { createServer } from "http";
 import * as path from "path";
-import { debug } from "console";
 const hostname: string = "localhost";
 const port: number = 3000;
 

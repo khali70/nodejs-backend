@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "node-HTTP"
+	},
+	{
+		"path": "node-express"
+	},
+	{
+		"path": "node_exampales"
+	}
+],
+  "settings": {}
+}
