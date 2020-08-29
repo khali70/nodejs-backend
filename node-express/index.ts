@@ -5,7 +5,7 @@ const hostname: string = "localhost";
 const port: number = 3000;
 
 const app = express();
-
+// TODO Try to use the server with out the ports
 app.use((req, res, next) => {
   console.log(req.headers);
   res.statusCode = 200;
