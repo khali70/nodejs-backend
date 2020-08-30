@@ -1,11 +1,14 @@
 import { createServer } from "http";
 import * as express from "express";
+import * as morgan from "morgan";
 
 const hostname: string = "localhost";
 const port: number = 3000;
+// TODO Try to use the server with out the ports
 
 const app = express();
-// TODO Try to use the server with out the ports
+app.use(morgan("dev"));
+app.use(express.static(__dirname + "/public"));
 app.use((req, res, next) => {
   console.log(req.headers);
   res.statusCode = 200;
