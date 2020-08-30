@@ -5,7 +5,7 @@ import * as bodyParser from "body-parser";
 
 import dishRouter from "./Routes/dishes";
 import LeadersRoute from "./Routes/Leaders";
-import PromoRoute from "./Routes/pormotion";
+import PromoRoute from "./Routes/promotion";
 
 const hostname: string = "localhost";
 const port: number = 3000;
