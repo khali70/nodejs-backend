@@ -1,31 +1,35 @@
 import * as assert from "assert";
-import {
-  Db,
-  InsertWriteOpResult,
-  DeleteWriteOpResultObject,
-  UpdateWriteOpResult,
-} from "mongodb";
-/*TODO
-  DONE update the collection type string to 'dishes','leader' comments  poromotion ... etc
-  TIP - line 14 the type the same as line 16
+import { Db } from "mongodb";
+/*  
+  // update the collection type string to 'dishes','leader' comments  poromotion ... etc
+  //  line 14 the type the same as line 16
 */
-type collection = "dishes" | "leader" | "comments" | "poromotion";
-type document = {
-  date?: Date | string;
-  author?: string;
-  comment?: string;
-  rating?: number;
-  dishId?: any;
-  name?: string;
-  image?: string;
-  label?: "New" | "Old" | "" | "Hot";
-  price?: number;
-  featured?: boolean;
-  description?: string;
-  designation?: string;
-  abbr?: string;
-  category?: string;
+type comment = {
+  comment: string;
+  author: string;
+  date: Date | string;
+  rating: 1 | 2 | 3 | 4 | 5;
 };
+type collection = "dishes" | "leader" | "comments" | "poromotion";
+type dish = {
+  name: string;
+  description?: string;
+  price: number;
+  comments: comment[];
+  label: "New" | "Old" | "" | "Hot";
+  featured: boolean;
+  category: string;
+  image: string;
+};
+type leader = {
+  name: string;
+  designation?: string;
+  featured: boolean;
+  image: string;
+  abbr?: string;
+};
+
+type document = dish | leader;
 export const insertDocument = (
   db: Db,
   document: document,

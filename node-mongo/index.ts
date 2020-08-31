@@ -1,5 +1,5 @@
-/* WISH
- * mongoos => make a sckema
+/* LIST
+//  * mongoos => make a sckema
  * dotenv => to hide senstive data
  */
 import { MongoClient } from "mongodb";
@@ -47,4 +47,3 @@ MongoClient.connect(url)
       .catch((err) => console.log(err));
   })
   .catch((err) => console.log(err));
-console.log("Hello from index");
