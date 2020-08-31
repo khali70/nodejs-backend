@@ -1,6 +1,7 @@
 node_modules
 .vscode
 starter.sh
-mongodb/*
-
-
+mongodb/**
+mongodb/data/**
+mongodb/data/journal/WiredTigerLog.0000000004
+mongodb/data/journal/WiredTigerLog.0000000004
