@@ -29,55 +29,29 @@ type document = {
 export const insertDocument = (
   db: Db,
   document: document,
-  collection: collection,
-  callback?: (
-    result: InsertWriteOpResult<{ name: string; description: string; _id: any }>
-  ) => any
+  collection: collection
 ) => {
   const coll = db.collection(collection);
-  coll.insert(document, (err, result) => {
-    assert.equal(err, null);
-    console.log(
-      `Inserted ${result.result.n} documents into the collection ${collection}`
-    );
-    callback(result);
-  });
+  return coll.insert(document);
 };
-export const findDocument = (
-  db: Db,
-  collection: collection,
-  callback?: (docs: any[]) => any
-) => {
+export const findDocuments = (db: Db, collection: collection) => {
   const coll = db.collection(collection);
-  coll.find({}).toArray((err, docs) => {
-    assert.equal(err, null);
-    callback(docs);
-  });
+  return coll.find({}).toArray();
 };
 export const removeDocument = (
   db: Db,
   document: document,
-  collection: collection,
-  callback?: (result: DeleteWriteOpResultObject) => any
+  collection: collection
 ) => {
   const coll = db.collection(collection);
-  coll.deleteOne(document, (err, result) => {
-    assert.equal(err, null);
-    console.log(`Removed the document`, document);
-    callback(result);
-  });
+  return coll.deleteOne(document);
 };
 export const updateDocument = (
   db: Db,
   document: document,
   update: document,
-  collection: collection,
-  callback?: (result: UpdateWriteOpResult) => any
-) => {
+  collection: collection
+): any => {
   const coll = db.collection(collection);
-  coll.updateOne(document, { $set: update }, null, (err, result) => {
-    assert.equal(err, null);
-    console.log(`Updated the document with `, update);
-    callback(result);
-  });
+  return coll.updateOne(document, { $set: update }, null);
 };

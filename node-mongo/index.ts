@@ -3,42 +3,48 @@
  * dotenv => to hide senstive data
  */
 import { MongoClient } from "mongodb";
-import * as assert from "assert";
 import * as dboper from "./operations";
 
 const url = "mongodb://localhost:2020";
 const dbname = "conFusion";
-MongoClient.connect(url, (err, client) => {
-  assert.equal(err, null);
-  console.log(`Connected to the server \n`);
-  const db = client.db(dbname);
-  const collection = db.collection("dishes");
-  dboper.insertDocument(
-    db,
-    { name: "Vadonut", description: "test" },
-    "dishes",
-    (result) => {
-      console.log("inserted:\n", result.ops);
-      dboper.findDocument(db, "dishes", (docs) => {
-        console.log("Fond Documents:\n", docs);
-        dboper.updateDocument(
+MongoClient.connect(url)
+  .then((client) => {
+    console.log("Connected correctly to server");
+    const db = client.db(dbname);
+
+    dboper
+      .insertDocument(db, { name: "Vadonut", description: "Test" }, "dishes")
+      .then((result) => {
+        console.log("Insert Document:\n", result.ops);
+
+        return dboper.findDocuments(db, "dishes");
+      })
+      .then((docs) => {
+        console.log("Found Documents:\n", docs);
+
+        return dboper.updateDocument(
           db,
           { name: "Vadonut" },
           { description: "Updated Test" },
-          "dishes",
-          (result) => {
-            console.log("Updated Document:\n", result.result);
-            dboper.findDocument(db, "dishes", (docs) => {
-              console.log("Fond Documents:\n", docs);
-              db.dropCollection("dishes", (result) => {
-                console.log("Droped Collection:", result);
-                client.close();
-              });
-            });
-          }
+          "dishes"
         );
-      });
-    }
-  );
-});
+      })
+      .then((result) => {
+        console.log("Updated Document:\n", result.result);
+
+        return dboper.findDocuments(db, "dishes");
+      })
+      .then((docs) => {
+        console.log("Found Updated Documents:\n", docs);
+
+        return db.dropCollection("dishes");
+      })
+      .then((result) => {
+        console.log("Dropped Collection: ", result);
+
+        return client.close();
+      })
+      .catch((err) => console.log(err));
+  })
+  .catch((err) => console.log(err));
 console.log("Hello from index");
