@@ -45,52 +45,35 @@ app.use(
     store: new FileStore(),
   })
 );
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 
+// auth
 app.use((req, res, next) => {
   console.log(req.signedCookies);
   //  check if the session is saved in the cookies
   if (!req.session.user) {
     // > auth new user
-    let authHeader = req.headers.authorization;
-    if (!authHeader) {
-      let err = new createError("You are not authorizoted");
-      res.setHeader("WWW-Authenticate", "Basic");
-      err.status = 401;
-      return next(err);
-    }
-    let auth = new Buffer(authHeader.split(" ")[1], "base64")
-      .toString()
-      .split(":");
-    let userName = auth[0];
-    let password = auth[1];
-    if (userName == "admin" && password == "password") {
-      //// res.cookie("user", "admin", { signed: true });
-      req.session.user = "admin";
-      next();
-    } else {
-      let err = new createError("You are not authorizoted");
-      res.setHeader("WWW-Authenticate", "Basic");
-      err.status = 401;
-      return next(err);
-    }
+    let err = new createError("You are not authorizoted");
+    res.setHeader("WWW-Authenticate", "Basic");
+    err.status = 401;
+    return next(err);
   } else {
     // > check the valid user in the cookies
-    if (req.session.user === "admin") {
+    if (req.session.user === "authenticated") {
       //  go ahead
       next();
     } else {
       //  error non valid user
       let err = new createError("You are not authorizoted");
       res.setHeader("WWW-Authenticate", "Basic");
-      err.status = 401;
+      err.status = 403;
       return next(err);
     }
   }
 });
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/dishes", dishRouter);
 app.use("/leaders", LeadersRoute);
 app.use("/promotions", PromoRoute);
