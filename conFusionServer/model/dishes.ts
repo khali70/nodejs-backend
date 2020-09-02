@@ -1,12 +1,15 @@
 import * as mongoose from "mongoose";
 /* LIST:17
- *import {loadeType} from "mongoose-currency" //!ERR  can't read mogoose.Type.Currency
+ *import {loadeType} from "mongoose-currency" //?  update
  *const Currency = mongoose.Types;
+ *promos
+ *leaders
  */
-interface Icomment {
+interface Icomment extends mongoose.Document {
   rating: 1 | 2 | 3 | 4 | 5;
   comment: string;
   author: string;
+  _id: any;
 }
 declare interface IDishes extends mongoose.Document {
   name: string;

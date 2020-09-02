@@ -1,55 +1,81 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 
+import Leaders from "../model/leaders";
 const LeadersRoute = express.Router();
 
 LeadersRoute.use(bodyParser.json());
 
 LeadersRoute.route("/")
-  .all((req, res, next) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    next();
-  })
   .get((req, res, next) => {
-    res.end("Will send all the dishes to you!");
+    Leaders.find({})
+      .then(
+        (leaders) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(leaders);
+        },
+        (err) => next(err)
+      )
+      .catch((err) => next(err));
   })
   .post((req, res, next) => {
-    res.end(
-      "Will add the dish: " +
-        req.body.name +
-        " with details: " +
-        req.body.description
-    );
+    Leaders.create(req.body)
+      .then((leader) => {
+        console.log("Dish Created", leader);
+        res.statusCode = 200;
+        res.json(leader);
+      })
+      .catch((err) => next(err));
   })
   .put((req, res, next) => {
     res.statusCode = 403;
-    res.end("PUT operation not supported on /dishes");
+    res.end("PUT operation not supported on /leaders");
   })
   .delete((req, res, next) => {
-    res.end("Deleting all dishes");
+    Leaders.remove({})
+      .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(resp);
+      })
+      .catch((err) => next(err));
   });
 LeadersRoute.route("/:leaderId")
   .get((req, res, next) => {
-    res.end(
-      "Will send details of the dish: " + req.params.leaderId + " to you!"
-    );
+    Leaders.findById(req.params.leaderId)
+      .then((leader) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(leader);
+      })
+      .catch((err) => next(err));
   })
   .post((req, res, next) => {
     res.statusCode = 403;
-    res.end("POST operation not supported on /dishes/" + req.params.leaderId);
+    res.end("POST operation not supported on /leaders/" + req.params.leaderId);
   })
   .put((req, res, next) => {
-    res.write("Updating the dish: " + req.params.leaderId + "\n");
-    res.end(
-      "Will update the dish: " +
-        req.body.name +
-        " with details: " +
-        req.body.description
-    );
+    Leaders.findByIdAndUpdate(
+      req.params.leaderId,
+      { $set: req.body },
+      { new: true }
+    )
+      .then((leader) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(leader);
+      })
+      .catch((err) => next(err));
   })
   .delete((req, res, next) => {
-    res.end("Deleting dish: " + req.params.leaderId);
+    Leaders.findByIdAndRemove(req.params.leaderId)
+      .then((leader) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(leader);
+      })
+      .catch((err) => next(err));
   });
 
 export default LeadersRoute;
