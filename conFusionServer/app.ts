@@ -4,7 +4,8 @@ import * as path from "path";
 import * as cookieParser from "cookie-parser";
 import * as logger from "morgan";
 import * as mongoose from "mongoose";
-
+import * as session from "express-session";
+let FileStore = require("session-file-store")(session); // ! its better to use the import export
 import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 import dishRouter from "./routes/dishes";
@@ -34,12 +35,21 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //  the secrit key for the cookies
-app.use(cookieParser("12345-67890-09876-54321"));
+//// app.use(cookieParser("12345-67890-09876-54321"));
+app.use(
+  session({
+    name: "session-id",
+    secret: "12345-67890-09876-54321",
+    saveUninitialized: false,
+    resave: false,
+    store: new FileStore(),
+  })
+);
 
 app.use((req, res, next) => {
   console.log(req.signedCookies);
   //  check if the session is saved in the cookies
-  if (!req.signedCookies.user) {
+  if (!req.session.user) {
     // > auth new user
     let authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -54,7 +64,8 @@ app.use((req, res, next) => {
     let userName = auth[0];
     let password = auth[1];
     if (userName == "admin" && password == "password") {
-      res.cookie("user", "admin", { signed: true });
+      //// res.cookie("user", "admin", { signed: true });
+      req.session.user = "admin";
       next();
     } else {
       let err = new createError("You are not authorizoted");
@@ -64,7 +75,7 @@ app.use((req, res, next) => {
     }
   } else {
     // > check the valid user in the cookies
-    if (req.signedCookies.user === "admin") {
+    if (req.session.user === "admin") {
       //  go ahead
       next();
     } else {
