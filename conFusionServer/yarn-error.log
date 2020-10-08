@@ -1,8 +1,8 @@
 Arguments: 
-  /usr/bin/node /usr/local/bin/yarn add @types/mongoose-currency
+  /usr/bin/node /usr/local/bin/yarn install
 
 PATH: 
-  /home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/emulator:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools/bin:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/tools:/home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools:/mnt/53b24d76-1a05-4297-bc46-77d7a243ddeb/react-native/Android/sdk/platform-tools
+  /home/khali/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
   1.22.4
@@ -14,17 +14,12 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fmongoose-currency: Not found
-      at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66987:18)
-      at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140748:22)
-      at Request.emit (events.js:198:13)
-      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141720:10)
-      at Request.emit (events.js:198:13)
-      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141642:12)
-      at Object.onceWrapper (events.js:286:20)
-      at IncomingMessage.emit (events.js:203:15)
-      at endReadableNT (_stream_readable.js:1145:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  SyntaxError: /home/khali/.cache/yarn/v6/npm-ts-mongoose-0.0.21-8be3769863e89919da8020351855726d09f7126a-integrity/node_modules/ts-mongoose/.yarn-metadata.json: Unexpected end of JSON input
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -32,7 +27,7 @@ npm manifest:
     "version": "0.0.0",
     "private": true,
     "scripts": {
-      "start": "ts-node-dev --respawn ./bin/www"
+      "start": "node ./bin/www"
     },
     "dependencies": {
       "@types/express": "^4.17.7",
@@ -47,6 +42,7 @@ npm manifest:
       "mongoose": "^5.10.2",
       "mongoose-currency": "^0.2.0",
       "morgan": "~1.9.1",
+      "ts-mongoose": "^0.0.21",
       "ts-node-dev": "^1.0.0-pre.61",
       "typescript": "^4.0.2"
     }
@@ -1460,6 +1456,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-1.0.0.tgz#5887966bb582a4503a41eb524f7d35011815a613"
     integrity sha1-WIeWa7WCpFA6QetST301ARgVphM=
+  
+  ts-mongoose@^0.0.21:
+    version "0.0.21"
+    resolved "https://registry.yarnpkg.com/ts-mongoose/-/ts-mongoose-0.0.21.tgz#8be3769863e89919da8020351855726d09f7126a"
+    integrity sha512-pbRN2JJY9N7Z5ehyMo6PJ7hlftRdELzO5nh/XvS1y31TDbeefc/GjM7C7jWb6ESZz+KlOmYDUpAT/L8i4wFbmQ==
   
   ts-node-dev@^1.0.0-pre.61:
     version "1.0.0-pre.61"

@@ -1,6 +1,6 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import Promo from "../model/promotion";
+const express = require("express");
+const bodyParser = require("body-parser");
+const Promo = require("../model/promotion");
 
 const PromoRoute = express.Router();
 
@@ -80,4 +80,4 @@ PromoRoute.route("/:promoId")
       .catch((err) => next(err));
   });
 
-export default PromoRoute;
+module.exports = PromoRoute;

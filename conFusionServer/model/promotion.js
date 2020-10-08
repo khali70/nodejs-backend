@@ -1,14 +1,14 @@
-import * as mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-declare interface ILeader extends mongoose.Document {
+/* declare interface IPromo extends mongoose.Document {
   name: string;
   description: string;
   image: string;
-  designation: string;
-  abbr: string;
+  label?: string | "New" | "Old" | "" | "Hot";
+  price: number; //?chang the type to Currency
   featured: boolean;
-}
-const leaderSchema = new mongoose.Schema(
+} */
+const promoSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -23,12 +23,14 @@ const leaderSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    abbr: {
+    label: {
       type: String,
-      require: true,
+      default: "",
+      require: false,
     },
-    designation: {
-      type: String,
+    price: {
+      type: Number,
+      min: 0,
       require: true,
     },
     featured: {
@@ -41,6 +43,6 @@ const leaderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-let Leaders: mongoose.Model<ILeader> = mongoose.model("Leader", leaderSchema);
-
-export default Leaders;
+let Promo = mongoose.model("Promo", promoSchema);
+// : mongoose.Model<IPromo>
+module.exports = Promo;

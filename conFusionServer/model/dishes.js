@@ -1,11 +1,11 @@
-import * as mongoose from "mongoose";
+const mongoose = require("mongoose");
 /* LIST:17
  *import {loadeType} from "mongoose-currency" //?  update
  *const Currency = mongoose.Types;
  *promos
  *leaders
  */
-interface Icomment extends mongoose.Document {
+/* interface Icomment extends mongoose.Document {
   rating: 1 | 2 | 3 | 4 | 5;
   comment: string;
   author: string;
@@ -20,7 +20,7 @@ declare interface IDishes extends mongoose.Document {
   price: number; //?chang the type to Currency
   featured: boolean;
   comments?: Icomment[];
-}
+} */
 const commentSchema = new mongoose.Schema(
   {
     rating: {
@@ -85,6 +85,6 @@ const dishSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-let Dishes: mongoose.Model<IDishes> = mongoose.model("Dish", dishSchema);
-
-export default Dishes;
+let Dishes = mongoose.model("Dish", dishSchema);
+// : mongoose.Model<IDishes>
+module.exports = Dishes;

@@ -1,7 +1,7 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import * as mongoose from "mongoose";
-import Dishes from "../model/dishes";
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const Dishes = require("../model/dishes");
 
 const dishRouter = express.Router();
 
@@ -92,7 +92,7 @@ dishRouter
             res.setHeader("Content-Type", "application/json");
             res.json(dish.comments);
           } else {
-            let err: any = new Error(`Dish ${req.params.dishId} not Found`);
+            let err = new Error(`Dish ${req.params.dishId} not Found`);
             err.status = 404;
             return next(err);
           }
@@ -112,7 +112,7 @@ dishRouter
             res.json(dish.comments);
           });
         } else {
-          let err: any = new Error(`Dish ${req.params.dishId} not Found`);
+          let err = new Error(`Dish ${req.params.dishId} not Found`);
           err.status = 404;
           return next(err);
         }
@@ -131,8 +131,7 @@ dishRouter
         if (dish != null) {
           if (dish != null) {
             for (var i = dish.comments.length - 1; i >= 0; i--) {
-              // @ts-ignore
-              dish.comments.id(dish.comments[i]._id).remove(); //FIXME ? dish.comment.id() gives error
+              dish.comments.id(dish.comments[i]._id).remove();
               dish.save().then((dish) => {
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
@@ -140,7 +139,7 @@ dishRouter
               });
             }
           } else {
-            let err: any = new Error(`Dish ${req.params.dishId} not Found`); //FIXME ? ts 'status' not on type 'Error'.
+            let err = new Error(`Dish ${req.params.dishId} not Found`);
             err.status = 404;
             return next(err);
           }
@@ -153,22 +152,19 @@ dishRouter
   .get((req, res, next) => {
     Dishes.findById(req.params.dishId)
       .then((dish) => {
-        // @ts-ignore
         if (dish != null && dish.comments.id(req.params.commentId) != null) {
-          //FIXME ? dish.comment.id() gives error
           dish.comments.push(req.body);
           dish.save().then((dish) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            // @ts-ignore
-            res.json(dish.comments.id(req.params.commentId)); //FIXME
+            res.json(dish.comments.id(req.params.commentId));
           });
         } else if (dish == null) {
-          let err: any = new Error(`dish ${req.params.dishId} not Found`);
+          let err = new Error(`dish ${req.params.dishId} not Found`);
           err.status = 404;
           return next(err);
         } else {
-          let err: any = new Error(`Comment ${req.params.commentId} not Found`);
+          let err = new Error(`Comment ${req.params.commentId} not Found`);
           err.status = 404;
           return next(err);
         }
@@ -187,29 +183,24 @@ dishRouter
   .put((req, res, next) => {
     Dishes.findById(req.params.dishId)
       .then((dish) => {
-        // @ts-ignore
         if (dish != null && dish.comments.id(req.params.commentId) != null) {
-          //FIXME ? dish.comment.id() gives error
           if (req.body.rating) {
-            // @ts-ignore
             dish.comments.id(req.params.commentId).rating = req.body.rating;
           }
           if (req.body.comment) {
-            // @ts-ignore
             dish.comments.id(req.params.commentId).comment = req.body.comment;
           }
           dish.save().then((dish) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            // @ts-ignore
-            res.json(dish.comments.id(req.params.commentId)); //FIXME
+            res.json(dish.comments.id(req.params.commentId));
           });
         } else if (dish == null) {
-          let err: any = new Error(`dish ${req.params.dishId} not Found`);
+          let err = new Error(`dish ${req.params.dishId} not Found`);
           err.status = 404;
           return next(err);
         } else {
-          let err: any = new Error(`Comment ${req.params.commentId} not Found`);
+          let err = new Error(`Comment ${req.params.commentId} not Found`);
           err.status = 404;
           return next(err);
         }
@@ -220,9 +211,7 @@ dishRouter
     Dishes.findById(req.params.dishId)
       .then(
         (dish) => {
-          // @ts-ignore
           if (dish != null && dish.comments.id(req.params.commentId) != null) {
-            // @ts-ignore
             dish.comments.id(req.params.commentId).remove();
             dish.save().then(
               (dish) => {
@@ -233,13 +222,11 @@ dishRouter
               (err) => next(err)
             );
           } else if (dish == null) {
-            let err: any = new Error(
-              "Dish " + req.params.dishId + " not found"
-            );
+            let err = new Error("Dish " + req.params.dishId + " not found");
             err.status = 404;
             return next(err);
           } else {
-            let err: any = new Error(
+            let err = new Error(
               "Comment " + req.params.commentId + " not found"
             );
             err.status = 404;
@@ -250,7 +237,7 @@ dishRouter
       )
       .catch((err) => next(err));
   });
-export default dishRouter;
+module.exports = dishRouter;
 /* 
 {
     "label": "Hot",

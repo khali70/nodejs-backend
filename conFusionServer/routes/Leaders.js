@@ -1,7 +1,7 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
+const bodyParser = require("body-parser");
+const express = require("express");
 
-import Leaders from "../model/leaders";
+const Leaders = require("../model/leaders");
 const LeadersRoute = express.Router();
 
 LeadersRoute.use(bodyParser.json());
@@ -78,4 +78,4 @@ LeadersRoute.route("/:leaderId")
       .catch((err) => next(err));
   });
 
-export default LeadersRoute;
+module.exports = LeadersRoute;
