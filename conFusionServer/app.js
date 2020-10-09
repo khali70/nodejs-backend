@@ -12,6 +12,8 @@ const dishRouter = require("./routes/dishes");
 const LeadersRoute = require("./routes/Leaders");
 const PromoRoute = require("./routes/promotion");
 const User = require("./model/user");
+const passport = require("passport");
+const authenticate = require("./auth");
 const url = "mongodb://localhost:2020/conFusion";
 const connect = mongoose.connect(url, {
   useNewUrlParser: true,
@@ -26,7 +28,6 @@ connect.then(
 );
 
 const app = express();
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -45,23 +46,18 @@ app.use(
     store: new FileStore(),
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 // PIN: auth
 app.use((req, res, next) => {
-  console.log(req.session);
-  if (!req.session.user) {
+  if (!req.user) {
     const err = new Error("You are not authenticated!");
-    res.setHeader("WWW-Authenticate", "Basic");
-    err.status = 401;
+    err.status = 403;
     return next(err);
-  } else if (req.session.user === "authenticated") {
-    next();
   } else {
-    const err = new Error("You are not authenticated!");
-    res.setHeader("WWW-Authenticate", "Basic");
-    err.status = 401;
-    return next(err);
+    next();
   }
 });
 app.use(express.static(path.join(__dirname, "public")));

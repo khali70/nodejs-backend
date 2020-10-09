@@ -1,19 +1,12 @@
 const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 Schema = mongoose.Schema;
 const User = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
   admin: {
     type: Boolean,
     default: false,
   },
 });
-
+User.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", User);
+//number.toLocaleString('ar-EG',{style:'currency',currency:'EGP'})
