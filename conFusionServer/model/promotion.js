@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
   description: string;
   image: string;
   label?: string | "New" | "Old" | "" | "Hot";
-  price: number; //?chang the type to Currency
+  price: number; //? number.toLocaleString('ar-EG',{style:'currency',currency:'EGP'})
   featured: boolean;
 } */
 const promoSchema = new mongoose.Schema(
@@ -44,5 +44,4 @@ const promoSchema = new mongoose.Schema(
   }
 );
 let Promo = mongoose.model("Promo", promoSchema);
-// : mongoose.Model<IPromo>
 module.exports = Promo;

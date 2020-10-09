@@ -42,5 +42,4 @@ const leaderSchema = new mongoose.Schema(
   }
 );
 let Leaders = mongoose.model("Leader", leaderSchema);
-// : mongoose.Model<ILeader>
 module.exports = Leaders;

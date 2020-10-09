@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 /* LIST:17
- *import {loadeType} from "mongoose-currency" //?  update
- *const Currency = mongoose.Types;
  *promos
  *leaders
  */
@@ -17,7 +15,8 @@ declare interface IDishes extends mongoose.Document {
   image: string;
   category: string;
   label?: string | "New" | "Old" | "" | "Hot";
-  price: number; //?chang the type to Currency
+  price: number; //? number.toLocaleString('ar-EG',{style:'currency',currency:'EGP'})
+
   featured: boolean;
   comments?: Icomment[];
 } */
@@ -34,8 +33,8 @@ const commentSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   {
@@ -86,5 +85,4 @@ const dishSchema = new mongoose.Schema(
   }
 );
 let Dishes = mongoose.model("Dish", dishSchema);
-// : mongoose.Model<IDishes>
 module.exports = Dishes;
