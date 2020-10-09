@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 var User = require("../model/user");
 const router = express.Router();
 const passport = require("passport");
+const authenticate = require("../auth");
 router.use(bodyParser.json());
 
 /* GET users listing. */
@@ -33,9 +34,15 @@ router.post("/signup", (req, res, next) => {
 });
 
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
+  console.log(req.user._id);
+  const token = authenticate.getToken({ _id: req.user._id });
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
-  res.json({ success: true, status: "You are Successfully loggend in!" });
+  res.json({
+    token,
+    success: true,
+    status: "You are Successfully loggend in!",
+  });
 });
 
 router.get("/logout", (req, res) => {

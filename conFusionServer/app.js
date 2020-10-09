@@ -14,7 +14,9 @@ const PromoRoute = require("./routes/promotion");
 const User = require("./model/user");
 const passport = require("passport");
 const authenticate = require("./auth");
-const url = "mongodb://localhost:2020/conFusion";
+require("dotenv").config();
+
+const url = process.env.MONGO_URL;
 const connect = mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -37,7 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //  the secrit key for the cookies
 //// app.use(cookieParser("12345-67890-09876-54321"));
-app.use(
+/* app.use(
   session({
     name: "session-id",
     secret: "12345-67890-09876-54321",
@@ -45,13 +47,13 @@ app.use(
     resave: false,
     store: new FileStore(),
   })
-);
+) */
 app.use(passport.initialize());
-app.use(passport.session());
+//// app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 // PIN: auth
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   if (!req.user) {
     const err = new Error("You are not authenticated!");
     err.status = 403;
@@ -59,7 +61,7 @@ app.use((req, res, next) => {
   } else {
     next();
   }
-});
+}); */
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/dishes", dishRouter);
