@@ -14,6 +14,7 @@ const PromoRoute = require("./routes/promotion");
 const User = require("./model/user");
 const passport = require("passport");
 const authenticate = require("./auth");
+const uploadRouter = require("./routes/uploadRouter");
 require("dotenv").config();
 
 const url = process.env.MONGO_URL;
@@ -50,15 +51,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //  the secrit key for the cookies
 //// app.use(cookieParser("12345-67890-09876-54321"));
-/* app.use(
-  session({
-    name: "session-id",
-    secret: "12345-67890-09876-54321",
-    saveUninitialized: false,
-    resave: false,
-    store: new FileStore(),
-  })
-) */
+
 app.use(passport.initialize());
 //// app.use(passport.session());
 app.use("/", indexRouter);
@@ -78,6 +71,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/dishes", dishRouter);
 app.use("/leaders", LeadersRoute);
 app.use("/promotions", PromoRoute);
+app.use("/imageUpload", uploadRouter);
 
 //  catch 404 and forward to error handler
 app.use((req, res, next) => {

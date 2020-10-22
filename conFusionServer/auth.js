@@ -20,7 +20,6 @@ let opts = {
 // ? the json web token that make the server user the token to handle traffic from both mobile and web
 exports.jwtPassport = passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
-    console.log(jwt_payload);
     User.findOne({ _id: jwt_payload._id }, (err, user) => {
       if (err) {
         return done(err, false);
@@ -33,3 +32,14 @@ exports.jwtPassport = passport.use(
   })
 );
 exports.veirfyUser = passport.authenticate("jwt", { session: false });
+exports.verifyAdmin = passport.authenticate(
+  "jwt",
+  function (err, user, info) {
+    // TODO add verify admin middle ware
+    if (user.admin) {
+      return true;
+    }
+    console.log(user);
+  },
+  { session: false }
+);
