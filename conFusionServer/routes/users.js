@@ -4,10 +4,12 @@ var User = require("../model/user");
 const router = express.Router();
 const passport = require("passport");
 const authenticate = require("../auth");
+const { corsWithOptions, cors } = require("./CORS");
+
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get("/", (req, res, next) => {
+router.get("/", corsWithOptions, (req, res, next) => {
   //TODO in this route req.user is undefiend
   console.log(req.user);
   if (req.user.admin) {
@@ -27,7 +29,7 @@ router.get("/", (req, res, next) => {
     return next(err);
   }
 });
-router.post("/signup", (req, res, next) => {
+router.post("/signup", corsWithOptions, (req, res, next) => {
   User.register(
     new User({ username: req.body.username }),
     req.body.password,
@@ -64,17 +66,22 @@ router.post("/signup", (req, res, next) => {
   );
 });
 
-router.post("/login", passport.authenticate("local"), (req, res, next) => {
-  console.log(req.user._id);
-  const token = authenticate.getToken({ _id: req.user._id });
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.json({
-    token,
-    success: true,
-    status: "You are Successfully loggend in!",
-  });
-});
+router.post(
+  "/login",
+  corsWithOptions,
+  passport.authenticate("local"),
+  (req, res, next) => {
+    console.log(req.user._id);
+    const token = authenticate.getToken({ _id: req.user._id });
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+    res.json({
+      token,
+      success: true,
+      status: "You are Successfully loggend in!",
+    });
+  }
+);
 
 router.get("/logout", (req, res) => {
   if (req.session) {

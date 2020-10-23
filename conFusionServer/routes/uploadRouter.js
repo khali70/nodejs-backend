@@ -1,6 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { veirfyUser, verifyAdmin } = require("../auth");
+const { corsWithOptions, cors } = require("./CORS");
+
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -28,22 +30,25 @@ uploadRouter.use(bodyParser.json());
 
 uploadRouter
   .route("/")
-  .get(veirfyUser, (req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors, veirfyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("GET operation not supported on /imageUpload");
   })
-  .post(veirfyUser, upload.single("imageFile"), (req, res) => {
+  .post(corsWithOptions, veirfyUser, upload.single("imageFile"), (req, res) => {
     console.log("verify user");
     console.log(veirfyUser);
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json(req.file);
   })
-  .put(veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, veirfyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /imageUpload");
   })
-  .delete(veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("DELETE operation not supported on /imageUpload");
   });

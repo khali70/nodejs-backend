@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const Dishes = require("../model/dishes");
 const { veirfyUser } = require("../auth");
+const { corsWithOptions, cors } = require("./CORS");
 const dishRouter = express.Router();
 /**LIST
   check admin user delete dishes
@@ -17,7 +18,10 @@ dishRouter.use(bodyParser.json());
 
 dishRouter
   .route("/")
-  .get((req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors, (req, res, next) => {
     // get all the dishes no need to signup
     Dishes.find({})
       .populate("comments.author")
@@ -31,10 +35,9 @@ dishRouter
       )
       .catch((err) => next(err));
   })
-  .post(veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
-     * add dish to dishes collection need to be loged in 
-     ? need verify admin
+     * add dish to dishes collection need to be loged in
      */
     if (req.user.admin) {
       Dishes.create(req.body)
@@ -50,17 +53,16 @@ dishRouter
       return next(err);
     }
   })
-  .put(veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
      * not allowed
      */
     res.statusCode = 403;
     res.end("PUT operation not supported on /dishes");
   })
-  .delete(veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
      * delet all dishs need to be log
-     ? need to be admin
      */
     if (req.user.admin) {
       Dishes.remove({})
@@ -78,7 +80,10 @@ dishRouter
   });
 dishRouter
   .route("/:dishId")
-  .get((req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors, (req, res, next) => {
     /**
      * get dish
      */
@@ -91,14 +96,13 @@ dishRouter
       })
       .catch((err) => next(err));
   })
-  .post(veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("POST operation not supported on /dishes/" + req.params.dishId);
   })
-  .put(veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
      * update dish need to be log
-     ? need to be admin
      */
     if (req.user.admin) {
       Dishes.findByIdAndUpdate(
@@ -118,7 +122,7 @@ dishRouter
       return next(err);
     }
   })
-  .delete(veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     if (req.user.admin) {
       Dishes.findByIdAndRemove(req.params.dishId)
         .then((dish) => {
@@ -136,7 +140,10 @@ dishRouter
 // ------------------------------------------------------ comments -------------------------------------------------------
 dishRouter
   .route("/:dishId/comments")
-  .get((req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors, (req, res, next) => {
     //get all comments
     Dishes.findById(req.params.dishId)
       .populate("comments.author")
@@ -156,7 +163,7 @@ dishRouter
       )
       .catch((err) => next(err));
   })
-  .post(veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, (req, res, next) => {
     // add comment to dish
     Dishes.findById(req.params.dishId)
       .then((dish) => {
@@ -183,16 +190,15 @@ dishRouter
       })
       .catch((err) => next(err));
   })
-  .put(veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, veirfyUser, (req, res, next) => {
     // forbeden to for comments
     res.statusCode = 403;
     res.end(
       "PUT operation not supported on /dishes" + req.params.dishId + "/comments"
     );
   })
-  .delete(veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     // delet all the comments
-    // admin only
     if (req.user.admin) {
       Dishes.findById(req.params.dishId)
         .then((dish) => {
@@ -223,7 +229,10 @@ dishRouter
 
 dishRouter
   .route("/:dishId/comments/:commentId")
-  .get((req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(cors, (req, res, next) => {
     // get comment
     Dishes.findById(req.params.dishId)
       .populate("comments.author")
@@ -247,7 +256,7 @@ dishRouter
       })
       .catch((err) => next(err));
   })
-  .post(veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, (req, res, next) => {
     // forbedin
     res.statusCode = 403;
     res.end(
@@ -257,18 +266,12 @@ dishRouter
         req.params.commentId
     );
   })
-  .put(veirfyUser, (req, res, next) => {
-    // TODO: only the comment owner can put the comment
+  .put(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
-    Dishes.findByIdAndUpdate(
-      req.params.dishId,
-      { $set: req.body },
-      { new: true }
-    )
+     * update comment
      */
     Dishes.findById(req.params.dishId)
       .then((dish) => {
-        //TODO: test it
         if (
           dish != null &&
           dish.comments.id(req.params.commentId) != null &&
@@ -307,12 +310,10 @@ dishRouter
       })
       .catch((err) => next(err));
   })
-  .delete(veirfyUser, (req, res, next) => {
-    // TODO: only the comment owner can delete the comment
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     Dishes.findById(req.params.dishId)
       .then(
         (dish) => {
-          //TODO:test it
           if (
             dish != null &&
             dish.comments.id(req.params.commentId) != null &&
