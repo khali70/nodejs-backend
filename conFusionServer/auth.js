@@ -1,19 +1,28 @@
 const passport = require("passport");
-const LocalStartegy = require("passport-local").Strategy;
+// user schema
 const User = require("./model/user");
+// local strategy
+const LocalStartegy = require("passport-local").Strategy;
+// json web token strategy
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const jwt = require("jsonwebtoken");
-require("dotenv").config(); // ? secretKey && db URL
-// ?local startegy: the schema thats add the user to the db
+// facebook token startegy
+const FacebookTokenStrategy = require("passport-facebook-token");
+require("dotenv").config();
+
+// add the local strategy to passport
 passport.use(new LocalStartegy(User.authenticate()));
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// the genrated token
 exports.getToken = (user) => {
   return jwt.sign(user, process.env.KEY, { expiresIn: 3600 });
 };
-let opts = {
+// the options for json web token strategy
+const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.KEY,
 };
@@ -32,14 +41,40 @@ exports.jwtPassport = passport.use(
   })
 );
 exports.veirfyUser = passport.authenticate("jwt", { session: false });
-exports.verifyAdmin = passport.authenticate(
-  "jwt",
-  function (err, user, info) {
-    // TODO add verify admin middle ware
-    if (user.admin) {
-      return true;
+exports.verifyAdmin = (req, res, next) => {
+  if (req.user.admin) {
+    next();
+  } else {
+    const error = new Error("Your are not admin to perform this operation");
+    err.status = 403;
+    return next(error);
+  }
+};
+
+exports.facebookPassport = passport.use(
+  new FacebookTokenStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+    },
+    (accessToken, refreshToken, profile, done) => {
+      User.findOne({ facebookId: profile.id }, (err, user) => {
+        if (err) {
+          return done(err, false);
+        }
+        if (!err && user !== null) {
+          return done(null, user);
+        } else {
+          user = new User({ username: profile.displayName });
+          user.facebookId = profile.id;
+          user.firstname = profile.name.givenName;
+          user.lastname = profile.name.familyName;
+          user.save((err, user) => {
+            if (err) return done(err, false);
+            else return done(null, user);
+          });
+        }
+      });
     }
-    console.log(user);
-  },
-  { session: false }
+  )
 );
