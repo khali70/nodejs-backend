@@ -10,6 +10,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const dishRouter = require("./routes/dishes");
 const LeadersRoute = require("./routes/Leaders");
+const FavRoute = require("./routes/favorit");
 const PromoRoute = require("./routes/promotion");
 const User = require("./model/user");
 const passport = require("passport");
@@ -70,6 +71,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/dishes", dishRouter);
 app.use("/leaders", LeadersRoute);
 app.use("/promotions", PromoRoute);
+app.use("/favorites", FavRoute);
 app.use("/imageUpload", uploadRouter);
 
 //  catch 404 and forward to error handler
@@ -89,3 +91,10 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+/**
+ * make the favorites route
+ * connect the react with the node server
+ * make the functionality
+ * connect the node server with the cloud
+ * connect the reactnative app to the cloud also
+ */

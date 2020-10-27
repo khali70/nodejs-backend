@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Dishes = require("../model/dishes");
-const { veirfyUser } = require("../auth");
+const { veirfyUser, verifyAdmin } = require("../auth");
 const { corsWithOptions, cors } = require("./CORS");
 const dishRouter = express.Router();
 /**LIST
@@ -23,7 +23,7 @@ dishRouter
   })
   .get(cors, (req, res, next) => {
     // get all the dishes no need to signup
-    Dishes.find({})
+    Dishes.find(req.query)
       .populate("comments.author")
       .then(
         (dishes) => {
@@ -35,23 +35,17 @@ dishRouter
       )
       .catch((err) => next(err));
   })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
     /**
      * add dish to dishes collection need to be loged in
      */
-    if (req.user.admin) {
-      Dishes.create(req.body)
-        .then((dish) => {
-          console.log("Dish Created", dish);
-          res.statusCode = 200;
-          res.json(dish);
-        })
-        .catch((err) => next(err));
-    } else {
-      let err = new Error(`only admin can add dish`);
-      err.status = 404;
-      return next(err);
-    }
+    Dishes.create(req.body)
+      .then((dish) => {
+        console.log("Dish Created", dish);
+        res.statusCode = 200;
+        res.json(dish);
+      })
+      .catch((err) => next(err));
   })
   .put(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
@@ -60,23 +54,17 @@ dishRouter
     res.statusCode = 403;
     res.end("PUT operation not supported on /dishes");
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
     /**
      * delet all dishs need to be log
      */
-    if (req.user.admin) {
-      Dishes.remove({})
-        .then((resp) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(resp);
-        })
-        .catch((err) => next(err));
-    } else {
-      let err = new Error(`only admin can delet dishes`);
-      err.status = 404;
-      return next(err);
-    }
+    Dishes.remove({})
+      .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(resp);
+      })
+      .catch((err) => next(err));
   });
 dishRouter
   .route("/:dishId")
@@ -100,42 +88,30 @@ dishRouter
     res.statusCode = 403;
     res.end("POST operation not supported on /dishes/" + req.params.dishId);
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
     /**
-     * update dish need to be log
+     * update dish
      */
-    if (req.user.admin) {
-      Dishes.findByIdAndUpdate(
-        req.params.dishId,
-        { $set: req.body },
-        { new: true }
-      )
-        .then((dish) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(dish);
-        })
-        .catch((err) => next(err));
-    } else {
-      let err = new Error(`only admin can update dish`);
-      err.status = 404;
-      return next(err);
-    }
+    Dishes.findByIdAndUpdate(
+      req.params.dishId,
+      { $set: req.body },
+      { new: true }
+    )
+      .then((dish) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(dish);
+      })
+      .catch((err) => next(err));
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
-    if (req.user.admin) {
-      Dishes.findByIdAndRemove(req.params.dishId)
-        .then((dish) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(dish);
-        })
-        .catch((err) => next(err));
-    } else {
-      let err = new Error(`only admin can delete dish`);
-      err.status = 404;
-      return next(err);
-    }
+  .delete(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
+    Dishes.findByIdAndRemove(req.params.dishId)
+      .then((dish) => {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(dish);
+      })
+      .catch((err) => next(err));
   });
 // ------------------------------------------------------ comments -------------------------------------------------------
 dishRouter
@@ -197,34 +173,28 @@ dishRouter
       "PUT operation not supported on /dishes" + req.params.dishId + "/comments"
     );
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
     // delet all the comments
-    if (req.user.admin) {
-      Dishes.findById(req.params.dishId)
-        .then((dish) => {
+    Dishes.findById(req.params.dishId)
+      .then((dish) => {
+        if (dish != null) {
           if (dish != null) {
-            if (dish != null) {
-              for (var i = dish.comments.length - 1; i >= 0; i--) {
-                dish.comments.id(dish.comments[i]._id).remove();
-                dish.save().then((dish) => {
-                  res.statusCode = 200;
-                  res.setHeader("Content-Type", "application/json");
-                  res.json(dish.comments);
-                });
-              }
-            } else {
-              let err = new Error(`Dish ${req.params.dishId} not Found`);
-              err.status = 404;
-              return next(err);
+            for (var i = dish.comments.length - 1; i >= 0; i--) {
+              dish.comments.id(dish.comments[i]._id).remove();
+              dish.save().then((dish) => {
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.json(dish.comments);
+              });
             }
+          } else {
+            let err = new Error(`Dish ${req.params.dishId} not Found`);
+            err.status = 404;
+            return next(err);
           }
-        })
-        .catch((err) => next(err));
-    } else {
-      let err = new Error(`only admin can delet comments`);
-      err.status = 404;
-      return next(err);
-    }
+        }
+      })
+      .catch((err) => next(err));
   });
 
 dishRouter

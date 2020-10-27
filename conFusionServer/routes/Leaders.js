@@ -13,7 +13,7 @@ LeadersRoute.route("/")
     res.sendStatus(200);
   })
   .get(cors, (req, res, next) => {
-    Leaders.find({})
+    Leaders.find(req.query)
       .then(
         (leaders) => {
           res.statusCode = 200;

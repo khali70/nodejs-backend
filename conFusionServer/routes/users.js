@@ -9,26 +9,32 @@ const { corsWithOptions, cors } = require("./CORS");
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.get("/", corsWithOptions, (req, res, next) => {
-  //TODO in this route req.user is undefiend
-  console.log(req.user);
-  if (req.user.admin) {
-    User.find({})
-      .then(
-        (users) => {
-          res.statusCode = 200;
-          res.setHeader("Content-Type", "application/json");
-          res.json(users);
-        },
-        (err) => next(err)
-      )
-      .catch((err) => next(err));
-  } else {
-    let err = new Error(`only admin can get the Users`);
-    err.status = 404;
-    return next(err);
+router.get(
+  "/",
+  corsWithOptions,
+  authenticate.veirfyUser,
+  authenticate.verifyAdmin,
+  (req, res, next) => {
+    //TODO in this route req.user is undefiend
+    console.log(req.user);
+    if (req.user.admin) {
+      User.find({})
+        .then(
+          (users) => {
+            res.statusCode = 200;
+            res.setHeader("Content-Type", "application/json");
+            res.json(users);
+          },
+          (err) => next(err)
+        )
+        .catch((err) => next(err));
+    } else {
+      let err = new Error(`only admin can get the Users`);
+      err.status = 404;
+      return next(err);
+    }
   }
-});
+);
 router.post("/signup", corsWithOptions, (req, res, next) => {
   User.register(
     new User({ username: req.body.username }),
