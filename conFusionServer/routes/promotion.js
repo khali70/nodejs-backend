@@ -27,7 +27,6 @@ PromoRoute.route("/")
   .post(corsWithOptions, veirfyUser, (req, res, next) => {
     Promo.create(req.body)
       .then((promo) => {
-        console.log("promo Created", promo);
         res.statusCode = 200;
         res.json(promo);
       })

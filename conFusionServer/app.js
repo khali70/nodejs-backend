@@ -3,19 +3,21 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
 var session = require("express-session");
-var FileStore = require("session-file-store")(session);
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const dishRouter = require("./routes/dishes");
+const commentsRouter = require("./routes/comments");
 const LeadersRoute = require("./routes/Leaders");
-const FavRoute = require("./routes/favorit");
 const PromoRoute = require("./routes/promotion");
-const User = require("./model/user");
-const passport = require("passport");
-const authenticate = require("./auth");
+const FavRoute = require("./routes/favorit");
 const uploadRouter = require("./routes/uploadRouter");
+const passport = require("passport");
+var FileStore = require("session-file-store")(session);
+const User = require("./model/user");
+const authenticate = require("./auth");
+const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 
 const url = process.env.MONGO_URL;
@@ -69,6 +71,7 @@ app.use("/users", usersRouter);
 }); */
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/dishes", dishRouter);
+app.use("/comments", commentsRouter);
 app.use("/leaders", LeadersRoute);
 app.use("/promotions", PromoRoute);
 app.use("/favorites", FavRoute);

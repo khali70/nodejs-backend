@@ -38,8 +38,6 @@ uploadRouter
     res.end("GET operation not supported on /imageUpload");
   })
   .post(corsWithOptions, veirfyUser, upload.single("imageFile"), (req, res) => {
-    console.log("verify user");
-    console.log(veirfyUser);
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json(req.file);

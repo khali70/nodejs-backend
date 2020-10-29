@@ -1,25 +1,7 @@
 const mongoose = require("mongoose");
-/* LIST:17
- *promos
- *leaders
- */
-/* interface Icomment extends mongoose.Document {
-  rating: 1 | 2 | 3 | 4 | 5;
-  comment: string;
-  author: string;
-  _id: any;
-}
-declare interface IDishes extends mongoose.Document {
-  name: string;
-  description: string;
-  image: string;
-  category: string;
-  label?: string | "New" | "Old" | "" | "Hot";
+/*
   price: number; //? number.toLocaleString('ar-EG',{style:'currency',currency:'EGP'})
-
-  featured: boolean;
-  comments?: Icomment[];
-} */
+ */
 const commentSchema = new mongoose.Schema(
   {
     rating: {
@@ -51,10 +33,6 @@ const dishSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
-    },
-    comments: {
-      type: [commentSchema],
-      required: false,
     },
     image: {
       type: String,

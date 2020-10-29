@@ -41,7 +41,6 @@ dishRouter
      */
     Dishes.create(req.body)
       .then((dish) => {
-        console.log("Dish Created", dish);
         res.statusCode = 200;
         res.json(dish);
       })
@@ -113,211 +112,7 @@ dishRouter
       })
       .catch((err) => next(err));
   });
-// ------------------------------------------------------ comments -------------------------------------------------------
-dishRouter
-  .route("/:dishId/comments")
-  .options(corsWithOptions, (req, res) => {
-    res.sendStatus(200);
-  })
-  .get(cors, (req, res, next) => {
-    //get all comments
-    Dishes.findById(req.params.dishId)
-      .populate("comments.author")
-      .then(
-        (dish) => {
-          if (dish != null) {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json(dish.comments);
-          } else {
-            let err = new Error(`Dish ${req.params.dishId} not Found`);
-            err.status = 404;
-            return next(err);
-          }
-        },
-        (err) => next(err)
-      )
-      .catch((err) => next(err));
-  })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
-    // add comment to dish
-    Dishes.findById(req.params.dishId)
-      .then((dish) => {
-        if (dish != null) {
-          req.body.author = req.user._id;
-          dish.comments.push(req.body);
-          dish.save().then(
-            (dish) => {
-              Dishes.findById(dish._id)
-                .populate("comments.author")
-                .then((dish) => {
-                  res.statusCode = 200;
-                  res.setHeader("Content-Type", "application/json");
-                  res.json(dish.comments);
-                });
-            },
-            (err) => console.log(err)
-          );
-        } else {
-          let err = new Error(`Dish ${req.params.dishId} not Found`);
-          err.status = 404;
-          return next(err);
-        }
-      })
-      .catch((err) => next(err));
-  })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
-    // forbeden to for comments
-    res.statusCode = 403;
-    res.end(
-      "PUT operation not supported on /dishes" + req.params.dishId + "/comments"
-    );
-  })
-  .delete(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
-    // delet all the comments
-    Dishes.findById(req.params.dishId)
-      .then((dish) => {
-        if (dish != null) {
-          if (dish != null) {
-            for (var i = dish.comments.length - 1; i >= 0; i--) {
-              dish.comments.id(dish.comments[i]._id).remove();
-              dish.save().then((dish) => {
-                res.statusCode = 200;
-                res.setHeader("Content-Type", "application/json");
-                res.json(dish.comments);
-              });
-            }
-          } else {
-            let err = new Error(`Dish ${req.params.dishId} not Found`);
-            err.status = 404;
-            return next(err);
-          }
-        }
-      })
-      .catch((err) => next(err));
-  });
 
-dishRouter
-  .route("/:dishId/comments/:commentId")
-  .options(corsWithOptions, (req, res) => {
-    res.sendStatus(200);
-  })
-  .get(cors, (req, res, next) => {
-    // get comment
-    Dishes.findById(req.params.dishId)
-      .populate("comments.author")
-      .then((dish) => {
-        if (dish != null && dish.comments.id(req.params.commentId) != null) {
-          dish.comments.push(req.body);
-          dish.save().then((dish) => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json(dish.comments.id(req.params.commentId));
-          });
-        } else if (dish == null) {
-          let err = new Error(`dish ${req.params.dishId} not Found`);
-          err.status = 404;
-          return next(err);
-        } else {
-          let err = new Error(`Comment ${req.params.commentId} not Found`);
-          err.status = 404;
-          return next(err);
-        }
-      })
-      .catch((err) => next(err));
-  })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
-    // forbedin
-    res.statusCode = 403;
-    res.end(
-      "POST operation not supported on /dishes/" +
-        req.params.dishId +
-        "/comments" +
-        req.params.commentId
-    );
-  })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
-    /**
-     * update comment
-     */
-    Dishes.findById(req.params.dishId)
-      .then((dish) => {
-        if (
-          dish != null &&
-          dish.comments.id(req.params.commentId) != null &&
-          req.user._id == dish.comments.id(req.params.commentId).author._id
-        ) {
-          if (req.body.rating) {
-            dish.comments.id(req.params.commentId).rating = req.body.rating;
-          }
-          if (req.body.comment) {
-            dish.comments.id(req.params.commentId).comment = req.body.comment;
-          }
-          dish.save().then((dish) => {
-            Dishes.findById(dish._id)
-              .populate("comments.author")
-              .then((params) => {
-                res.statusCode = 200;
-                res.setHeader("Content-Type", "application/json");
-                res.json(dish.comments.id(req.params.commentId));
-              });
-          });
-        } else if (dish == null) {
-          let err = new Error(`dish ${req.params.dishId} not Found`);
-          err.status = 404;
-          return next(err);
-        } else if (
-          req.user._id !== dish.comments.id(req.params.commentId).author._id
-        ) {
-          let err = new Error(`Only the comment auther can modify the comment`);
-          err.status = 403;
-          return next(err);
-        } else {
-          let err = new Error(`Comment ${req.params.commentId} not Found`);
-          err.status = 404;
-          return next(err);
-        }
-      })
-      .catch((err) => next(err));
-  })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
-    Dishes.findById(req.params.dishId)
-      .then(
-        (dish) => {
-          if (
-            dish != null &&
-            dish.comments.id(req.params.commentId) != null &&
-            req.user._id == dish.comments.id(req.params.commentId).author._id
-          ) {
-            dish.comments.id(req.params.commentId).remove();
-            dish.save().then(
-              (dish) => {
-                Dishes.findById(dish._id)
-                  .populate("comments.author")
-                  .then((dish) => {
-                    res.statusCode = 200;
-                    res.setHeader("Content-Type", "application/json");
-                    res.json(dish);
-                  });
-              },
-              (err) => next(err)
-            );
-          } else if (dish == null) {
-            let err = new Error("Dish " + req.params.dishId + " not found");
-            err.status = 404;
-            return next(err);
-          } else {
-            let err = new Error(
-              "Comment " + req.params.commentId + " not found"
-            );
-            err.status = 404;
-            return next(err);
-          }
-        },
-        (err) => next(err)
-      )
-      .catch((err) => next(err));
-  });
 module.exports = dishRouter;
 /* 
 {
@@ -328,20 +123,9 @@ module.exports = dishRouter;
     "image": "images/uthappizza.png",
     "category": "mains",
     "price": 4.99,
-    "description": "A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.",
-    "comments": [
-        {
-            "_id": "5f4e430ceec20757258bd68b",
-            "rating": 5,
-            "comment": "Imagine all the eatables, living in conFusion!",
-            "author": "John Lemon",
-            "createdAt": "2020-09-01T12:48:12.311Z",
-            "updatedAt": "2020-09-01T12:48:12.311Z"
-        }
-    ],
+    "description": "A unique combination of Indian Uthappamalia onion, Guntur chillies and Buffalo Paneer.",
     "createdAt": "2020-09-01T12:48:12.312Z",
     "updatedAt": "2020-09-01T12:48:12.312Z",
     "__v": 0
 }
-req.user._id
 */

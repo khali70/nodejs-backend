@@ -27,7 +27,6 @@ LeadersRoute.route("/")
   .post(corsWithOptions, veirfyUser, (req, res, next) => {
     Leaders.create(req.body)
       .then((leader) => {
-        console.log("Dish Created", leader);
         res.statusCode = 200;
         res.json(leader);
       })

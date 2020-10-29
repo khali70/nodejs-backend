@@ -1,7 +1,8 @@
 const express = require("express");
 const CORS = require("cors");
 const app = express();
-const whitlist = ["http://localhost:3000", "https://localhost:3443"];
+// prettier-ignore
+const whitlist = ["http://localhost:3000", "https://localhost:3443","http://eng.khalifa:1250/"];
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;
   if (whitlist.indexOf(req.header("Origin")) !== -1) {

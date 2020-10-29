@@ -1,13 +1,3 @@
-/**
- *  mongoes schema
- *  the schema consist of
- * {user:userid , _id:id , dishes:[]}
- * verifyuser && req.user._id == user
- *  add to mongo
- *  use population to populate the id of dish
- * $ /favorites get delet post=> arr of dishes add to the arr of dishes
- * favorites/:dishid delete
- */
 const { veirfyUser } = require("../auth");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,7 +8,10 @@ const favRoute = express.Router();
 favRoute.use(bodyParser.json());
 // prettier-ignore
 favRoute.route("/")
-.get(veirfyUser,(req,res,next) => {
+.options(corsWithOptions, (req, res) => {
+  res.sendStatus(200);
+})
+.get(cors,veirfyUser,(req,res,next) => {
   Favorite.find({userid:req.user._id})
   .populate('userid')
   .populate("dishes")
@@ -32,7 +25,7 @@ favRoute.route("/")
       )
       .catch((err) => next(err));
 })
-.post(veirfyUser,(req,res,next) => {
+.post(corsWithOptions,veirfyUser,(req,res,next) => {
   /**
    * take the body ass arr and push to the arr 
    */
@@ -47,14 +40,14 @@ favRoute.route("/")
   )
   .catch((err) => next(err))
 })
-.put(veirfyUser, (req, res, next) => {
+.put(corsWithOptions,veirfyUser, (req, res, next) => {
   /**
    * not allowed
    */
   res.statusCode = 403;
   res.end("PUT operation not supported on /favorites");
 })
-.delete(veirfyUser,(req,res,next) => {
+.delete(corsWithOptions,veirfyUser,(req,res,next) => {
   // delete all the user favorites 
   Favorite.deleteMany({userid:req.user._id})
   .then((fav) => {
@@ -63,23 +56,25 @@ favRoute.route("/")
     res.json(fav);
   })
 })
-// ! not working make it work
+
 favRoute
   .route("/:dishid")
   .get(veirfyUser, (req, res, next) => {
-    /* return from fav.dishes.foreach(Obj_of_dish_id=>{
-        if(Obj_of_dish_id == req.params.dishid){
-          res.statusCode=200;
-          res.setHeader("Content-Type","application/json")
-          res.json(Obj_of_dish_id)
-        }
-      })*/
-    Favorite.find({ userid: req.user._id })
-      .populate("dishes")
+    Favorite.findOne({ userid: req.user._id })
       .then((fav) => {
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.json(fav.dishes);
+        if (!fav) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          return res.json({ exists: false, favorites: null });
+        } else if (fav.dishes.indexOf(req.params.dishid) < 0) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          return res.json({ exists: false, favorites: null });
+        } else {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          return res.json({ exists: true, favorites: fav });
+        }
       })
       .catch((err) => console.log(err));
   })
@@ -92,7 +87,7 @@ favRoute
     Favorite.findOne({ userid: req.user._id })
     .then((fav) => {
       if(fav !=null){
-        if(fav.dishes.indexOf(req.params.dishid) == -1){
+        if(fav.dishes.indexOf(req.params.dishid) < 0){
           fav.dishes.push(req.params.dishid)
         }else{
           let err = new Error(`this dish is already in the favorites`);

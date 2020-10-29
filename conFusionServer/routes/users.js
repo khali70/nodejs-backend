@@ -7,7 +7,7 @@ const authenticate = require("../auth");
 const { corsWithOptions, cors } = require("./CORS");
 
 router.use(bodyParser.json());
-
+router.options("*", corsWithOptions, (req, res) => res.sendStatus(200));
 /* GET users listing. */
 router.get(
   "/",
@@ -15,8 +15,6 @@ router.get(
   authenticate.veirfyUser,
   authenticate.verifyAdmin,
   (req, res, next) => {
-    //TODO in this route req.user is undefiend
-    console.log(req.user);
     if (req.user.admin) {
       User.find({})
         .then(
@@ -72,22 +70,34 @@ router.post("/signup", corsWithOptions, (req, res, next) => {
   );
 });
 
-router.post(
-  "/login",
-  corsWithOptions,
-  passport.authenticate("local"),
-  (req, res, next) => {
-    console.log(req.user._id);
-    const token = authenticate.getToken({ _id: req.user._id });
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    res.json({
-      success: true,
-      token,
-      status: "You are Successfully loggend in!",
-    });
-  }
-);
+router.post("/login", corsWithOptions, (req, res, next) => {
+  // prettier-ignore
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+
+    } else if (!user) {
+      // the user is null and the reason for that is in info so err:info
+      res.statusCode = 401;
+      res.setHeader('Content-Type', 'application/json');
+      res.json({success: false, status: 'Login Unsuccessful!', err: info});
+    } else {
+
+      req.logIn(user, done = (err) => {
+        if (err) {
+          res.statusCode = 401;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});  
+        }
+        const token = authenticate.getToken({ _id: req.user._id });
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json({success: true, status: 'Login Successful!', token});
+      });
+    }
+
+  })(req, res, next);
+});
 
 router.get("/logout", (req, res) => {
   if (req.session) {
@@ -117,4 +127,23 @@ router.get(
     }
   }
 );
+/**
+ * when jwt expire
+ */
+router.get("/checkJWTToken", corsWithOptions, (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (err, user, next) => {
+    if (err) {
+      return next(err);
+    } else if (!user) {
+      // the user is null and the reason for that is in info so err:info
+      res.statusCode = 401;
+      res.setHeader("Content-Type", "application/json");
+      res.json({ success: false, status: "JWT invalid!", err: info });
+    } else {
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.json({ success: true, status: "JWT valid!", user });
+    }
+  })(req, res);
+});
 module.exports = router;
