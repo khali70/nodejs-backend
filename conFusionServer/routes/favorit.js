@@ -12,14 +12,14 @@ favRoute.route("/")
   res.sendStatus(200);
 })
 .get(cors,veirfyUser,(req,res,next) => {
-  Favorite.find({userid:req.user._id})
+  Favorite.findOne({userid:req.user._id})
   .populate('userid')
   .populate("dishes")
       .then(
         (fav) => {
           res.statusCode = 200;
           res.setHeader("Content-Type", "application/json");
-          res.json(fav);
+          return res.json(fav);
         },
         (err) => next(err)
       )
@@ -29,15 +29,47 @@ favRoute.route("/")
   /**
    * take the body ass arr and push to the arr 
    */
-  Favorite.create({userid:req.user._id,dishes:req.body.dishes})
-  .then(
-    (fav) => {
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "application/json");
-      res.json(fav);
-    },
-    (err) => next(err)
-  )
+  Favorite.findOne({userid:req.user._id})
+  .populate("userid")
+  .populate("dishes")
+  .then((fav) => {
+    if(fav==null){
+      Favorite.create({userid:req.user._id,dishes:req.body.dishes})
+      .populate("userid")
+      .populate("dishes")
+      .then(
+        (fav) => {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json(fav);
+        },
+        (err) => next(err)
+      )
+    }else{
+      req.body.forEach((dishid) => {
+        if (fav.dishes.indexOf(dishid) < 0)
+          fav.dishes.push(dishid);
+      });
+      fav
+        .save()
+        .then(fav=>{
+          Favorite.findById(fav._id)
+          .populate('userid')
+          .populate("dishes")
+          .then((fav) => {
+            if(fav==null){
+              let err = new Error('adding the dish falied')
+              err.status=404
+              throw err
+            }else{
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "application/json");
+              res.json(fav);
+            }
+          })
+        })
+    }
+  })
   .catch((err) => next(err))
 })
 .put(corsWithOptions,veirfyUser, (req, res, next) => {
@@ -59,8 +91,13 @@ favRoute.route("/")
 
 favRoute
   .route("/:dishid")
-  .get(veirfyUser, (req, res, next) => {
+  .options(corsWithOptions, (req, res) => {
+    res.sendStatus(200);
+  })
+  .get(corsWithOptions, veirfyUser, (req, res, next) => {
     Favorite.findOne({ userid: req.user._id })
+      .populate("userid")
+      .populate("dishes")
       .then((fav) => {
         if (!fav) {
           res.statusCode = 200;
@@ -78,13 +115,15 @@ favRoute
       })
       .catch((err) => console.log(err));
   })
-  .post(veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
      * check the fav add req.params.dishid or create fav the add dishid
      * check if the dish existis first
      */
     // prettier-ignore
     Favorite.findOne({ userid: req.user._id })
+    .populate("userid")
+    .populate("dishes")
     .then((fav) => {
       if(fav !=null){
         if(fav.dishes.indexOf(req.params.dishid) < 0){
@@ -97,20 +136,24 @@ favRoute
         fav.save()
         .then(() => {
           Favorite.findOne({userid:req.user._id})
+          .populate("userid")
+          .populate("dishes")
           .then((fav) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            res.json(fav);
+            return res.json(fav);
           })
         })
       }else{
         Favorite.create({userid:req.user._id,dishes:[req.params.dishid]})
+        .populate("userid")
+        .populate("dishes")
         .then(() => {
           Favorite.findOne({userid:req.user._id})
           .then((fav) => {
             res.statusCode = 200;
             res.setHeader("Content-Type", "application/json");
-            res.json(fav);
+            return res.json(fav);
           })
         })
       }
@@ -121,7 +164,7 @@ favRoute
      * not allowed
      */
   })
-  .delete(veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
     /**
      * delete the given dish in the params
      */
@@ -129,11 +172,14 @@ favRoute
       if (fav != null) {
         fav.dishes = fav.dishes.filter((dishid) => dishid != req.params.dishid);
         fav.save().then(() => {
-          Favorite.findOne({ userid: req.user._id }).then((fav) => {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.json(fav);
-          });
+          Favorite.findOne({ userid: req.user._id })
+            .populate("userid")
+            .populate("dishes")
+            .then((fav) => {
+              res.statusCode = 200;
+              res.setHeader("Content-Type", "application/json");
+              return res.json(fav);
+            });
         });
       } else {
         let err = new Error(
