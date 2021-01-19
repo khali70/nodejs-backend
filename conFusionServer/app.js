@@ -17,6 +17,7 @@ var FileStore = require("session-file-store")(session);
 const User = require("./model/user");
 const authenticate = require("./auth");
 const cookieParser = require("cookie-parser");
+const feedbackRoute = require("./routes/feedback");
 
 require("dotenv").config();
 
@@ -75,6 +76,7 @@ app.use("/comments", commentsRouter);
 app.use("/leaders", LeadersRoute);
 app.use("/promotions", PromoRoute);
 app.use("/favorites", FavRoute);
+app.use("/feedback", feedbackRoute);
 app.use("/imageUpload", uploadRouter);
 
 //  catch 404 and forward to error handler

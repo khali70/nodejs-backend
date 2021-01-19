@@ -19,7 +19,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // the genrated token
 exports.getToken = (user) => {
-  return jwt.sign(user, process.env.KEY, { expiresIn: 3600 });
+  return jwt.sign(user, process.env.KEY, { expiresIn: 86400 });
 };
 // the options for json web token strategy
 const opts = {
