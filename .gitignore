@@ -3,3 +3,7 @@ node_modules
 starter.sh
 mongodb
 node-mongoos
+jsserver/
+node-express/
+node-HTTP/
+node-mongo/
