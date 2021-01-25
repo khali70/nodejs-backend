@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "client": "cd ../../client/ && yarn start",
+    "client": "cd ../client/ && yarn start",
     "dev": "concurrently -n 'Server,Client' -c 'red,green' \"nodemon ./bin/www\" \"yarn run client\" "
   },
   "dependencies": {

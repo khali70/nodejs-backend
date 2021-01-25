@@ -3,6 +3,6 @@ node_modules
 starter.sh
 mongodb
 node-mongoos
-conFusionServer/config.js
-conFusionServer/.env
-conFusionServer/public/images/
+config.js
+.env
+public/images/
