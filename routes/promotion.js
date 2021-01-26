@@ -37,6 +37,8 @@ PromoRoute.route("/")
     res.end("PUT operation not supported on /promotions");
   })
   .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+    // FIXME add veirfyUser
+    // FIXME add req.query
     Promo.remove({})
       .then((resp) => {
         res.statusCode = 200;

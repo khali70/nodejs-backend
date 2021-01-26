@@ -266,3 +266,67 @@ fav.save().then((fav) => {
 ---
 
 ---
+
+# promo route
+
+- [ ] get promo schema
+
+## at `/`
+
+### get
+
+- find(req.query)=> by default { } as all but user can narrow it down
+- res.json(promo`s`);
+
+### put
+
+> veirfyUser
+
+- 403 => fobridden
+
+### post
+
+> veirfyUser
+
+- create(req.body)
+- res.json(promo);
+
+### delete
+
+> veirfyUser
+
+- remove({})
+- res.json(resp);
+
+---
+
+## at `/:promoId`
+
+### get
+
+- findById(promoId)
+- res.json(promo)
+
+### put
+
+> veirfyUser
+
+- updatewith(req.body)
+- res.json(promo);
+
+### post
+
+> veirfyUser
+
+- 403
+
+### delete
+
+> veirfyUser
+
+- findByIdAndRemove(promoId)
+- res.json(promo);
+
+---
+
+---
