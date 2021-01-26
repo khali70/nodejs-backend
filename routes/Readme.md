@@ -170,3 +170,96 @@ Dishes.findByIdAndRemove(req.params.dishId).then((dish) => {
   res.json(dish);
 });
 ```
+
+# fav route
+
+still not finished yet so there's now schema
+
+## at `/`
+
+### get
+
+> veirfyUser is logged in
+
+- findOut(user.\_id)
+- res.json(fav)
+
+### put
+
+> veirfyUser
+
+- res.statusCode = 403
+
+### post
+
+> veirfyUser
+
+- findOne({userid:user.\_id})
+- no favoritse at all
+  - create({userid:user.\_id,dishes:req.body.dishes})
+  - res.json(fav);
+- [there's favorets](#there's_favorets)
+- loop all the dishes
+- add none added one form the body
+- save to the db
+- `res.json(fav)`
+
+#### there's favorets
+
+loop all the dishes in the req add none added one
+
+```js
+req.body.forEach((dishid) => {
+  if (fav.dishes.indexOf(dishid) < 0) fav.dishes.push(dishid);
+});
+```
+
+```js
+/**
+ * save to the db
+ */
+fav.save().then((fav) => {
+  // find the dish
+  Favorite.findById(fav._id)
+    .populate("userid")
+    .populate("dishes")
+    .then((fav) => {
+      if (fav == null) {
+        let err = new Error("adding the dish falied");
+        err.status = 404;
+        throw err;
+      } else {
+        res.statusCode = 200;
+        res.setHeader("Content-Type", "application/json");
+        res.json(fav);
+      }
+    });
+});
+```
+
+### delete
+
+> veirfyUser
+
+- deleteMany({userid:req.user.\_id})
+- res.json(fav);
+
+---
+
+## at `/:favId`
+
+### get
+
+### put
+
+### post
+
+### delete
+
+---
+
+---
+
+```
+
+```
