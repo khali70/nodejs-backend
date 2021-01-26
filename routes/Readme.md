@@ -245,3 +245,24 @@ fav.save().then((fav) => {
 - res.json(fav);
 
 ---
+
+---
+
+# feedback route
+
+## at `/`
+
+### post
+
+```js
+
+* const feedback = {...req.body,userId:_id,firstname,lastname}
+
+* create(feedback)
+
+* res.json(feedback);
+```
+
+---
+
+---
