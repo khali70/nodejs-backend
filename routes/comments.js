@@ -171,17 +171,6 @@ commentRouter
   });
 
 module.exports = commentRouter;
-/* 
-{
-  "_id": "5f4e430ceec20757258bd68b",
-  "rating": 5,
-  "comment": "Imagine all the eatables, living in conFusion!",
-  "author": "John Lemon",
-  "dishId":"5f4e430ceec20757258bd68a"
-  "createdAt": "2020-09-01T12:48:12.311Z",
-  "updatedAt": "2020-09-01T12:48:12.311Z"
-}
-*/
 // ------------------------------------------------------ comments -------------------------------------------------------
 // dishRouter
 //   .route("/:dishId/comments")
