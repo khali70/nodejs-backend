@@ -7,12 +7,15 @@ const feedbackRoute = express.Router();
 
 feedbackRoute.use(bodyParser.json());
 // prettier-ignore
+// FIXME add get route
 feedbackRoute.route("/")
 .options(corsWithOptions, (req, res) => {
   res.sendStatus(200);
 })
 .post(corsWithOptions,veirfyUser,(req,res,next) => {
-  const feedback = {...req.body,userId:req.user._id,firstname:req.user.firstname,lastname:req.user.lastname}
+// TODO test rename the _id 
+  const {_id:userId , lastname,firstname} = user;
+  const feedback = {...req.body,userId,firstname,lastname}
   Feedback.create(feedback)
   .then(
     (feedback) => {
