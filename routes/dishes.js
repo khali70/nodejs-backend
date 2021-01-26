@@ -114,18 +114,3 @@ dishRouter
   });
 
 module.exports = dishRouter;
-/* 
-{
-    "label": "Hot",
-    "featured": true,
-    "_id": "5f4e430ceec20757258bd68a",
-    "name": "Uthappizza",
-    "image": "images/uthappizza.png",
-    "category": "mains",
-    "price": 4.99,
-    "description": "A unique combination of Indian Uthappamalia onion, Guntur chillies and Buffalo Paneer.",
-    "createdAt": "2020-09-01T12:48:12.312Z",
-    "updatedAt": "2020-09-01T12:48:12.312Z",
-    "__v": 0
-}
-*/
