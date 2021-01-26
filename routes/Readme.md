@@ -330,3 +330,66 @@ fav.save().then((fav) => {
 ---
 
 ---
+
+# leadre route
+
+- [ ] get leaders schema
+
+## at `/`
+
+### get
+
+- find(req.query)
+- res.json(leaders)
+
+### put
+
+> veirfyUser
+
+- 403
+
+### post
+
+> veirfyUser
+
+- create(req.body)
+- json(leader)
+
+### delete
+
+> veirfyUser
+
+- remove({})
+
+---
+
+## at `/:leadreId`
+
+### get
+
+- findById(req.params.leaderId)
+- res.json(leader)
+
+### put
+
+> veirfyUser
+
+- 403
+
+### post
+
+> veirfyUser
+
+- update(req.body)
+- res.json(leader)
+
+### delete
+
+> veirfyUser
+
+- findByIdAndRemove(req.params.leaderId)
+- res.json(leader)
+
+---
+
+---

@@ -37,6 +37,8 @@ LeadersRoute.route("/")
     res.end("PUT operation not supported on /leaders");
   })
   .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+    // FIXME veirfyadmin
+    // FIXME req.query
     Leaders.remove({})
       .then((resp) => {
         res.statusCode = 200;
