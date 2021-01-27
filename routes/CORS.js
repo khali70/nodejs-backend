@@ -11,10 +11,7 @@ const app = express();
 const filterOrigin = (origin, callback) => {
   // the filter
 
-  const regOrigin = new RegExp(
-    /((https|http):\/\/((www|dev)\.)?localhost:?\d*(\.(com|tech))?)/
-  );
-
+  const regOrigin = /((https|http):\/\/((www|dev)\.)?localhost:?\d*(\.(com|tech))?)/;
   // test the origin based on the filter
 
   if (regOrigin.test(origin)) {
