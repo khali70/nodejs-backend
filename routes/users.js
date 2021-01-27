@@ -1,12 +1,18 @@
+// express
 const express = require("express");
-const bodyParser = require("body-parser");
-var User = require("../model/user");
 const router = express.Router();
+// using body parser
+const bodyParser = require("body-parser");
+// importing user Mongo Schema
+var User = require("../model/user");
+// using passport for authentication
 const passport = require("passport");
 const authenticate = require("../auth");
+
 const { corsWithOptions, cors } = require("./CORS");
 
 router.use(bodyParser.json());
+
 router.options("*", corsWithOptions, (req, res) => res.sendStatus(200));
 /* GET users listing. */
 router.get(
@@ -33,6 +39,8 @@ router.get(
     }
   }
 );
+
+// signup new user
 router.post("/signup", corsWithOptions, (req, res, next) => {
   User.register(
     new User({ username: req.body.username }),
@@ -71,31 +79,34 @@ router.post("/signup", corsWithOptions, (req, res, next) => {
 });
 
 router.post("/login", corsWithOptions, (req, res, next) => {
-  // prettier-ignore
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
-
     } else if (!user) {
       // the user is null and the reason for that is in info so err:info
       res.statusCode = 401;
-      res.setHeader('Content-Type', 'application/json');
-      res.json({success: false, status: 'Login Unsuccessful!', err: info});
+      res.setHeader("Content-Type", "application/json");
+      res.json({ success: false, status: "Login Unsuccessful!", err: info });
     } else {
-
-      req.logIn(user, done = (err) => {
-        if (err) {
-          res.statusCode = 401;
-          res.setHeader('Content-Type', 'application/json');
-          res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});  
-        }
-        const token = authenticate.getToken({ _id: req.user._id });
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json({success: true, status: 'Login Successful!', token});
-      });
+      req.logIn(
+        user,
+        (done = (err) => {
+          if (err) {
+            res.statusCode = 401;
+            res.setHeader("Content-Type", "application/json");
+            res.json({
+              success: false,
+              status: "Login Unsuccessful!",
+              err: "Could not log in user!",
+            });
+          }
+          const token = authenticate.getToken({ _id: req.user._id });
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.json({ success: true, status: "Login Successful!", token });
+        })
+      );
     }
-
   })(req, res, next);
 });
 

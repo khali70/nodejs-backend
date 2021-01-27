@@ -10,6 +10,8 @@
 - [cors](#cors)
 - [uploadRoute](#uploadroute)
 - [users](#users)
+  - [post `/login`](#post-login)
+  - [get `/facebook/token`](#get-facebooktoken)
 - [index.js](#indexjs)
 
 # comments route
@@ -209,7 +211,7 @@ still not finished yet so there's now schema
 > veirfyUser
 
 - findOne({userid:user.\_id})
-- no favoritse at all
+- no favorites at all
   - create({userid:user.\_id,dishes:req.body.dishes})
   - res.json(fav);
 - [there's favorets](#there's_favorets)
@@ -218,7 +220,7 @@ still not finished yet so there's now schema
 - save to the db
 - `res.json(fav)`
 
-#### there's favorets <!-- omit in toc -->
+#### there's favorites <!-- omit in toc -->
 
 loop all the dishes in the req add none added one
 
@@ -437,7 +439,7 @@ for more see the [doc](https://www.npmjs.com/package/cors) from npm about [cors]
 
 # uploadRoute
 
-to upload the img we use multer as uploader middelWare for express
+to upload the img we use multer as uploader middleWare for express
 
 the upload on the route
 
@@ -448,5 +450,78 @@ the upload on the route
 return the file agin ?!
 
 # users
+
+## get `/` <!-- omit in toc -->
+
+> verify user
+> verify admin
+
+- find all users
+- return all user
+
+## post `/signup` <!-- omit in toc -->
+
+- register new user
+- add first and last name to user schema
+
+```js
+res.json({ success: true, status: "Registration Successful!" });
+```
+
+## post `/login`
+
+- search user on passport
+
+```js
+// at error
+res.json({
+  success: false,
+  status: "Login Unsuccessful!",
+  err: "Could not log in user!",
+});
+// at success
+const token = authenticate.getToken({ _id: req.user._id });
+
+res.json({ success: true, status: "Login Successful!", token });
+```
+
+## get `/logout` <!-- omit in toc -->
+
+```js
+req.session.destroy();
+res.clearCookie("session-id");
+res.redirect("/");
+```
+
+## get `/facebook/token`
+
+```js
+res.json({
+  success: true,
+  token: token,
+  status: "You are successfully logged in!",
+});
+```
+
+## get `/checkJWTToken` <!-- omit in toc -->
+
+```js
+passport.authenticate("jwt"
+```
+
+look for the user on the web token
+
+```js
+passport.authenticate("jwt");
+```
+
+return
+
+```js
+// success
+res.json({ success: true, status: "JWT valid!", user });
+// error
+res.json({ success: false, status: "JWT invalid!", err: info });
+```
 
 # index.js
