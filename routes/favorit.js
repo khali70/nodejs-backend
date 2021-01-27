@@ -190,4 +190,4 @@ favRoute.route("/")
 //       }
 //     });
 //   });
-// module.exports = favRoute;
+module.exports = favRoute;
