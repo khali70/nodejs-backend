@@ -3,8 +3,14 @@ const bodyParser = require("body-parser");
 const { veirfyUser, verifyAdmin } = require("../auth");
 const { corsWithOptions, cors } = require("./CORS");
 
+// configuer express route
+const uploadRouter = express.Router();
+// config body parser
+uploadRouter.use(bodyParser.json());
+// adding mullter to upload the img
 const multer = require("multer");
 
+// where to store the data and the file name of the stored data
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images");
@@ -15,6 +21,14 @@ const storage = multer.diskStorage({
   },
 });
 
+// validate that the uploaded file is img
+/**
+ * validate the the sended file is img
+ * @param {req} req the request
+ * @param {Express.Multer.File} file the file
+ * @param {multer.FileFilterCallback} cb the result from all that 3k in the function
+ * @returns `true` if the file is img
+ */
 const imageFileFilter = (req, file, cb) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
     return cb(new Error("You can upload only image files!"), false);
@@ -23,10 +37,6 @@ const imageFileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, fileFilter: imageFileFilter });
-
-const uploadRouter = express.Router();
-
-uploadRouter.use(bodyParser.json());
 
 uploadRouter
   .route("/")

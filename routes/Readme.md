@@ -437,6 +437,16 @@ for more see the [doc](https://www.npmjs.com/package/cors) from npm about [cors]
 
 # uploadRoute
 
+to upload the img we use multer as uploader middelWare for express
+
+the upload on the route
+
+### post <!-- omit in toc -->
+
+> veirfyUser
+
+return the file agin ?!
+
 # users
 
 # index.js
