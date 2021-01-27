@@ -1,3 +1,6 @@
+# sections
+
+- [sections](#sections)
 - [comments route](#comments-route)
 - [dishes route](#dishes-route)
 - [fav route](#fav-route)
@@ -406,6 +409,31 @@ fav.save().then((fav) => {
 ---
 
 # cors
+
+it's short for `Cros-Origin Resource Sharing`
+
+to add options we can use
+
+```js
+var corsOptions = {
+  origin: "http://example.com",
+  optionsSuccessStatus: 200, // some legacy browsers
+};
+// or for dynamic
+const whitelist = ["http://example1.com", "http://example2.com"];
+const filterOrigin = (origin, callback) => {
+  if (whitelist.indexOf(origin) !== -1) {
+    callback(null, true);
+  } else {
+    callback(new Error("Not allowed by CORS"));
+  }
+};
+var corsOptions = {
+  origin: filterOrigin,
+};
+```
+
+for more see the [doc](https://www.npmjs.com/package/cors) from npm about [cors](https://www.npmjs.com/package/cors)
 
 # uploadRoute
 
