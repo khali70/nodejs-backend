@@ -1,3 +1,14 @@
+- [comments route](#comments-route)
+- [dishes route](#dishes-route)
+- [fav route](#fav-route)
+- [feedback route](#feedback-route)
+- [promo route](#promo-route)
+- [leadre route](#leadre-route)
+- [cors](#cors)
+- [uploadRoute](#uploadroute)
+- [users](#users)
+- [index.js](#indexjs)
+
 # comments route
 
 comment schema
@@ -14,15 +25,15 @@ comment schema
 }
 ```
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - get `req.query`
 - populate `auther`
 - res.json(comments)
 
-### put
+### put <!-- omit in toc -->
 
 > user logged in
 
@@ -30,7 +41,7 @@ comment schema
 - `findbyId(commnt._id)`
 - return `req.json(comment)`
 
-### post
+### post <!-- omit in toc -->
 
 > user logged in
 
@@ -38,7 +49,7 @@ comment schema
 res.end("PUT operation not supported on /comments/");
 ```
 
-### delete
+### delete <!-- omit in toc -->
 
 > - user logged in
 > - user is admin
@@ -48,14 +59,14 @@ res.end("PUT operation not supported on /comments/");
 
 ---
 
-## at `/:commentId`
+## at `/:commentId` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - Comments.findById(req.params.`commentId`)
 - res.json(`comment`)
 
-### put
+### put <!-- omit in toc -->
 
 > user logged in
 
@@ -65,13 +76,13 @@ res.end("PUT operation not supported on /comments/");
 - `findByIdAndUpdate`(commentId) => `req.body`
 - res.json(`comment`)
 
-### post
+### post <!-- omit in toc -->
 
 > user logedin
 
 - **403**=> forbiden
 
-### delete
+### delete <!-- omit in toc -->
 
 > user logedin
 
@@ -104,14 +115,14 @@ dish schema
 }
 ```
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - `find(req.query)` => by default {} but add the option for the client to narrow it down
 - req.json(`dishes`)
 
-### put
+### put <!-- omit in toc -->
 
 > - veirfyUser logedin
 > - verifyAdmin
@@ -119,13 +130,13 @@ dish schema
 - [ ] vlidate the req.body data
 - create(req.body)
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser is loggedin
 
 - 403 => forbidden
 
-### delete
+### delete <!-- omit in toc -->
 
 > - veirfyUser is loggedin
 > - verifyAdmin
@@ -133,14 +144,14 @@ dish schema
 - remove all dishes
 - res.json(resp);
 
-## `/:dishId`
+## at `/:dishId` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - findById(req.params.dishId)
 - res.json(dish);
 
-### put
+### put <!-- omit in toc -->
 
 > - veirfyUser is loggedin
 > - verifyAdmin
@@ -148,13 +159,13 @@ dish schema
 - findByIdAndUpdate(dishId)
 - res.json(dish)
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser is logged in
 
 - 403 => forbidden
 
-### delete
+### delete <!-- omit in toc -->
 
 > - veirfyUser is loggedin
 > - verifyAdmin
@@ -175,22 +186,22 @@ Dishes.findByIdAndRemove(req.params.dishId).then((dish) => {
 
 still not finished yet so there's now schema
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 > veirfyUser is logged in
 
 - findOut(user.\_id)
 - res.json(fav)
 
-### put
+### put <!-- omit in toc -->
 
 > veirfyUser
 
 - res.statusCode = 403
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser
 
@@ -204,7 +215,7 @@ still not finished yet so there's now schema
 - save to the db
 - `res.json(fav)`
 
-#### there's favorets
+#### there's favorets <!-- omit in toc -->
 
 loop all the dishes in the req add none added one
 
@@ -237,7 +248,7 @@ fav.save().then((fav) => {
 });
 ```
 
-### delete
+### delete <!-- omit in toc -->
 
 > veirfyUser
 
@@ -250,9 +261,9 @@ fav.save().then((fav) => {
 
 # feedback route
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### post
+### post <!-- omit in toc -->
 
 ```js
 
@@ -271,27 +282,27 @@ fav.save().then((fav) => {
 
 - [ ] get promo schema
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - find(req.query)=> by default { } as all but user can narrow it down
 - res.json(promo`s`);
 
-### put
+### put <!-- omit in toc -->
 
 > veirfyUser
 
 - 403 => fobridden
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser
 
 - create(req.body)
 - res.json(promo);
 
-### delete
+### delete <!-- omit in toc -->
 
 > veirfyUser
 
@@ -300,27 +311,27 @@ fav.save().then((fav) => {
 
 ---
 
-## at `/:promoId`
+## at `/:promoId` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - findById(promoId)
 - res.json(promo)
 
-### put
+### put <!-- omit in toc -->
 
 > veirfyUser
 
 - updatewith(req.body)
 - res.json(promo);
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser
 
 - 403
 
-### delete
+### delete <!-- omit in toc -->
 
 > veirfyUser
 
@@ -335,27 +346,27 @@ fav.save().then((fav) => {
 
 - [ ] get leaders schema
 
-## at `/`
+## at `/` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - find(req.query)
 - res.json(leaders)
 
-### put
+### put <!-- omit in toc -->
 
 > veirfyUser
 
 - 403
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser
 
 - create(req.body)
 - json(leader)
 
-### delete
+### delete <!-- omit in toc -->
 
 > veirfyUser
 
@@ -363,27 +374,27 @@ fav.save().then((fav) => {
 
 ---
 
-## at `/:leadreId`
+## at `/:leadreId` <!-- omit in toc -->
 
-### get
+### get <!-- omit in toc -->
 
 - findById(req.params.leaderId)
 - res.json(leader)
 
-### put
+### put <!-- omit in toc -->
 
 > veirfyUser
 
 - 403
 
-### post
+### post <!-- omit in toc -->
 
 > veirfyUser
 
 - update(req.body)
 - res.json(leader)
 
-### delete
+### delete <!-- omit in toc -->
 
 > veirfyUser
 
@@ -393,3 +404,11 @@ fav.save().then((fav) => {
 ---
 
 ---
+
+# cors
+
+# uploadRoute
+
+# users
+
+# index.js
