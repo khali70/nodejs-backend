@@ -15,8 +15,12 @@ const LeadersRoute = require("./routes/Leaders");
 const PromoRoute = require("./routes/promotion");
 const FavRoute = require("./routes/favorite");
 const uploadRouter = require("./routes/uploadRouter");
-const passport = require("passport");
 const feedbackRoute = require("./routes/feedback");
+
+/**
+ * passport for login
+ */
+const passport = require("passport");
 
 /**
  * dev
