@@ -1,32 +1,44 @@
-const createError = require("http-errors");
+/***
+ * configure express
+ */
 const express = require("express");
-const path = require("path");
-const logger = require("morgan");
-const mongoose = require("mongoose");
-var session = require("express-session");
+const app = express();
+
+/**
+ * routes
+ */
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const dishRouter = require("./routes/dishes");
 const commentsRouter = require("./routes/comments");
 const LeadersRoute = require("./routes/Leaders");
 const PromoRoute = require("./routes/promotion");
-const FavRoute = require("./routes/favorit");
+const FavRoute = require("./routes/favorite");
 const uploadRouter = require("./routes/uploadRouter");
 const passport = require("passport");
-var FileStore = require("session-file-store")(session);
-const User = require("./model/user");
-const authenticate = require("./auth");
-const cookieParser = require("cookie-parser");
 const feedbackRoute = require("./routes/feedback");
 
+/**
+ * dev
+ */
+// to redirect 404 error
+const createError = require("http-errors");
+// to connect the server
+const mongoose = require("mongoose");
+// to log the req
+const logger = require("morgan");
+const path = require("path");
+// to use .env data
 require("dotenv").config();
 
+// configure connection to the server
 const url = process.env.MONGO_URL;
 const connect = mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-// > check the connection for any errors
+
+// connect to db
 connect.then(
   (db) => {
     console.log("Connected correctly to the server");
@@ -34,8 +46,7 @@ connect.then(
   (err) => console.log(err)
 );
 
-const app = express();
-// Secure traffic only
+// redirect http to https
 app.all("*", (req, res, next) => {
   if (req.secure) {
     return next();
@@ -46,31 +57,24 @@ app.all("*", (req, res, next) => {
     );
   }
 });
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-//  view the requests and loggs in the conosle
+
+//  view the requests and logs in the console
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//  the secrit key for the cookies
-//// app.use(cookieParser("12345-67890-09876-54321"));
 
 app.use(passport.initialize());
-//// app.use(passport.session());
+
+// where to serve the data
+app.use(express.static(path.join(__dirname, "public")));
+
+// setup server route
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-// PIN: auth
-/* app.use((req, res, next) => {
-  if (!req.user) {
-    const err = new Error("You are not authenticated!");
-    err.status = 403;
-    return next(err);
-  } else {
-    next();
-  }
-}); */
-app.use(express.static(path.join(__dirname, "public")));
 app.use("/dishes", dishRouter);
 app.use("/comments", commentsRouter);
 app.use("/leaders", LeadersRoute);
@@ -90,16 +94,12 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // > render the error page
+  //  render the error page
   res.status(err.status || 500);
   res.render("error");
 });
 
 module.exports = app;
 /**
- * make the favorites route
- * connect the react with the node server
- * make the functionality
- * connect the node server with the cloud
- * connect the reactnative app to the cloud also
+ * connect the reactNative app to the cloud also
  */
