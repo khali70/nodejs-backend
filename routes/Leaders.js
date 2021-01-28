@@ -1,6 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
-const { veirfyUser } = require("../auth");
+const { verifyUser } = require("../auth");
 const Leaders = require("../model/leaders");
 const { corsWithOptions, cors } = require("./CORS");
 
@@ -24,7 +24,7 @@ LeadersRoute.route("/")
       )
       .catch((err) => next(err));
   })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, verifyUser, (req, res, next) => {
     Leaders.create(req.body)
       .then((leader) => {
         res.statusCode = 200;
@@ -32,11 +32,11 @@ LeadersRoute.route("/")
       })
       .catch((err) => next(err));
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /leaders");
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, verifyUser, (req, res, next) => {
     // FIXME veirfyadmin
     // FIXME req.query
     Leaders.remove({})
@@ -60,11 +60,11 @@ LeadersRoute.route("/:leaderId")
       })
       .catch((err) => next(err));
   })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("POST operation not supported on /leaders/" + req.params.leaderId);
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, verifyUser, (req, res, next) => {
     Leaders.findByIdAndUpdate(
       req.params.leaderId,
       { $set: req.body },
@@ -77,7 +77,7 @@ LeadersRoute.route("/:leaderId")
       })
       .catch((err) => next(err));
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, verifyUser, (req, res, next) => {
     Leaders.findByIdAndRemove(req.params.leaderId)
       .then((leader) => {
         res.statusCode = 200;

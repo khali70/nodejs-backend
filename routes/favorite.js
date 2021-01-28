@@ -1,7 +1,7 @@
-const { veirfyUser } = require("../auth");
+const { verifyUser } = require("../auth");
 const express = require("express");
 const bodyParser = require("body-parser");
-const Favorite = require("../model/favorit");
+const Favorite = require("../model/favorite");
 const { corsWithOptions, cors } = require("./CORS");
 const favRoute = express.Router();
 
@@ -11,7 +11,7 @@ favRoute.route("/")
 .options(corsWithOptions, (req, res) => {
   res.sendStatus(200);
 })
-.get(cors,veirfyUser,(req,res,next) => {
+.get(cors,verifyUser,(req,res,next) => {
   Favorite.findOne({userid:req.user._id})
   .populate('userid')
   .populate("dishes")
@@ -25,7 +25,7 @@ favRoute.route("/")
       )
       .catch((err) => next(err));
 })
-.post(corsWithOptions,veirfyUser,(req,res,next) => {
+.post(corsWithOptions,verifyUser,(req,res,next) => {
   /**
    * take the body ass arr and push to the arr 
    */
@@ -57,7 +57,7 @@ favRoute.route("/")
           .populate("dishes")
           .then((fav) => {
             if (fav == null) {
-              let err = new Error("adding the dish falied");
+              let err = new Error("adding the dish failed");
               err.status = 404;
               throw err;
             } else {
@@ -72,14 +72,14 @@ favRoute.route("/")
   })
   .catch((err) => next(err))
 })
-.put(corsWithOptions,veirfyUser, (req, res, next) => {
+.put(corsWithOptions,verifyUser, (req, res, next) => {
   /**
    * not allowed
    */
   res.statusCode = 403;
   res.end("PUT operation not supported on /favorites");
 })
-.delete(corsWithOptions,veirfyUser,(req,res,next) => {
+.delete(corsWithOptions,verifyUser,(req,res,next) => {
   // delete all the user favorites 
   Favorite.deleteMany({userid:req.user._id})
   .then((fav) => {
@@ -88,13 +88,13 @@ favRoute.route("/")
     res.json(fav);
   })
 })
-// FIXME check the code fisrt
+// FIXME check the code first
 // favRoute
 //   .route("/:favId")
 //   .options(corsWithOptions, (req, res) => {
 //     res.sendStatus(200);
 //   })
-//   .get(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .get(corsWithOptions, verifyUser, (req, res, next) => {
 //     Favorite.findOne({ userid: req.user._id })
 //       .populate("userid")
 //       .populate("dishes")
@@ -115,10 +115,10 @@ favRoute.route("/")
 //       })
 //       .catch((err) => console.log(err));
 //   })
-//   .post(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .post(corsWithOptions, verifyUser, (req, res, next) => {
 //     /**
 //      * check the fav add req.params.dishid or create fav the add dishid
-//      * check if the dish existis first
+//      * check if the dish exists first
 //      */
 //     // prettier-ignore
 //     Favorite.findOne({ userid: req.user._id })
@@ -159,12 +159,12 @@ favRoute.route("/")
 //       }
 //     });
 //   })
-//   .put(veirfyUser, (req, res, next) => {
+//   .put(verifyUser, (req, res, next) => {
 //     /**
 //      * not allowed
 //      */
 //   })
-//   .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .delete(corsWithOptions, verifyUser, (req, res, next) => {
 //     /**
 //      * delete the given dish in the params
 //      */

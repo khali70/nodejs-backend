@@ -129,7 +129,7 @@ dish schema
 
 ### put <!-- omit in toc -->
 
-> - veirfyUser logedin
+> - verifyUser logedin
 > - verifyAdmin
 
 - [ ] vlidate the req.body data
@@ -137,13 +137,13 @@ dish schema
 
 ### post <!-- omit in toc -->
 
-> veirfyUser is loggedin
+> verifyUser is loggedin
 
 - 403 => forbidden
 
 ### delete <!-- omit in toc -->
 
-> - veirfyUser is loggedin
+> - verifyUser is loggedin
 > - verifyAdmin
 
 - remove all dishes
@@ -158,7 +158,7 @@ dish schema
 
 ### put <!-- omit in toc -->
 
-> - veirfyUser is loggedin
+> - verifyUser is loggedin
 > - verifyAdmin
 
 - findByIdAndUpdate(dishId)
@@ -166,13 +166,13 @@ dish schema
 
 ### post <!-- omit in toc -->
 
-> veirfyUser is logged in
+> verifyUser is logged in
 
 - 403 => forbidden
 
 ### delete <!-- omit in toc -->
 
-> - veirfyUser is loggedin
+> - verifyUser is loggedin
 > - verifyAdmin
 
 - findByIdAndRemove(dishId)
@@ -195,20 +195,20 @@ still not finished yet so there's now schema
 
 ### get <!-- omit in toc -->
 
-> veirfyUser is logged in
+> verifyUser is logged in
 
 - findOut(user.\_id)
 - res.json(fav)
 
 ### put <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - res.statusCode = 403
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - findOne({userid:user.\_id})
 - no favorites at all
@@ -255,7 +255,7 @@ fav.save().then((fav) => {
 
 ### delete <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - deleteMany({userid:req.user.\_id})
 - res.json(fav);
@@ -296,20 +296,20 @@ fav.save().then((fav) => {
 
 ### put <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - 403 => fobridden
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - create(req.body)
 - res.json(promo);
 
 ### delete <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - remove({})
 - res.json(resp);
@@ -325,20 +325,20 @@ fav.save().then((fav) => {
 
 ### put <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - updatewith(req.body)
 - res.json(promo);
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - 403
 
 ### delete <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - findByIdAndRemove(promoId)
 - res.json(promo);
@@ -360,20 +360,20 @@ fav.save().then((fav) => {
 
 ### put <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - 403
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - create(req.body)
 - json(leader)
 
 ### delete <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - remove({})
 
@@ -388,20 +388,20 @@ fav.save().then((fav) => {
 
 ### put <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - 403
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - update(req.body)
 - res.json(leader)
 
 ### delete <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 - findByIdAndRemove(req.params.leaderId)
 - res.json(leader)
@@ -445,7 +445,7 @@ the upload on the route
 
 ### post <!-- omit in toc -->
 
-> veirfyUser
+> verifyUser
 
 return the file agin ?!
 

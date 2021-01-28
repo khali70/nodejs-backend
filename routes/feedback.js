@@ -1,4 +1,4 @@
-const { veirfyUser } = require("../auth");
+const { verifyUser } = require("../auth");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { corsWithOptions, cors } = require("./CORS");
@@ -12,7 +12,7 @@ feedbackRoute.route("/")
 .options(corsWithOptions, (req, res) => {
   res.sendStatus(200);
 })
-.post(corsWithOptions,veirfyUser,(req,res,next) => {
+.post(corsWithOptions,verifyUser,(req,res,next) => {
 // TODO test rename the _id 
   const {_id:userId , lastname,firstname} = user;
   const feedback = {...req.body,userId,firstname,lastname}

@@ -26,7 +26,7 @@ commentRouter
       )
       .catch((err) => next(err));
   })
-  .post(cors.corsWithOptions, authenticate.veirfyUser, (req, res, next) => {
+  .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     // add comment
     if (req.body != null) {
       req.body.author = req.user._id;
@@ -50,13 +50,13 @@ commentRouter
       return next(err);
     }
   })
-  .put(cors.corsWithOptions, authenticate.veirfyUser, (req, res, next) => {
+  .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /comments/");
   })
   .delete(
     cors.corsWithOptions,
-    authenticate.veirfyUser,
+    authenticate.verifyUser,
     authenticate.verifyAdmin,
     (req, res, next) => {
       Comments.remove({})
@@ -90,13 +90,13 @@ commentRouter
       )
       .catch((err) => next(err));
   })
-  .post(cors.corsWithOptions, authenticate.veirfyUser, (req, res, next) => {
+  .post(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end(
       "POST operation not supported on /comments/" + req.params.commentId
     );
   })
-  .put(cors.corsWithOptions, authenticate.veirfyUser, (req, res, next) => {
+  .put(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Comments.findById(req.params.commentId)
       .then(
         (comment) => {
@@ -137,7 +137,7 @@ commentRouter
       )
       .catch((err) => next(err));
   })
-  .delete(cors.corsWithOptions, authenticate.veirfyUser, (req, res, next) => {
+  .delete(cors.corsWithOptions, authenticate.verifyUser, (req, res, next) => {
     Comments.findById(req.params.commentId)
       .then(
         (comment) => {
@@ -197,7 +197,7 @@ module.exports = commentRouter;
 //       )
 //       .catch((err) => next(err));
 //   })
-//   .post(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .post(corsWithOptions, verifyUser, (req, res, next) => {
 //     // add comment to dish
 //     Dishes.findById(req.params.dishId)
 //       .then((dish) => {
@@ -224,14 +224,14 @@ module.exports = commentRouter;
 //       })
 //       .catch((err) => next(err));
 //   })
-//   .put(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .put(corsWithOptions, verifyUser, (req, res, next) => {
 //     // forbeden to for comments
 //     res.statusCode = 403;
 //     res.end(
 //       "PUT operation not supported on /dishes" + req.params.dishId + "/comments"
 //     );
 //   })
-//   .delete(corsWithOptions, veirfyUser, verifyAdmin, (req, res, next) => {
+//   .delete(corsWithOptions, verifyUser, verifyAdmin, (req, res, next) => {
 //     // delet all the comments
 //     Dishes.findById(req.params.dishId)
 //       .then((dish) => {
@@ -284,7 +284,7 @@ module.exports = commentRouter;
 //       })
 //       .catch((err) => next(err));
 //   })
-//   .post(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .post(corsWithOptions, verifyUser, (req, res, next) => {
 //     // forbedin
 //     res.statusCode = 403;
 //     res.end(
@@ -294,7 +294,7 @@ module.exports = commentRouter;
 //         req.params.commentId
 //     );
 //   })
-//   .put(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .put(corsWithOptions, verifyUser, (req, res, next) => {
 //     /**
 //      * update comment
 //      */
@@ -338,7 +338,7 @@ module.exports = commentRouter;
 //       })
 //       .catch((err) => next(err));
 //   })
-//   .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+//   .delete(corsWithOptions, verifyUser, (req, res, next) => {
 //     Dishes.findById(req.params.dishId)
 //       .then(
 //         (dish) => {

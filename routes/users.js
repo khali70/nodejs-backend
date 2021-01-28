@@ -18,7 +18,7 @@ router.options("*", corsWithOptions, (req, res) => res.sendStatus(200));
 router.get(
   "/",
   corsWithOptions,
-  authenticate.veirfyUser,
+  authenticate.verifyUser,
   authenticate.verifyAdmin,
   (req, res, next) => {
     if (req.user.admin) {

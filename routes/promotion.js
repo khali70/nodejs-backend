@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { veirfyUser } = require("../auth");
+const { verifyUser } = require("../auth");
 const Promo = require("../model/promotion");
 const { corsWithOptions, cors } = require("./CORS");
 
@@ -24,7 +24,7 @@ PromoRoute.route("/")
       )
       .catch((err) => next(err));
   })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, verifyUser, (req, res, next) => {
     Promo.create(req.body)
       .then((promo) => {
         res.statusCode = 200;
@@ -32,12 +32,12 @@ PromoRoute.route("/")
       })
       .catch((err) => next(err));
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /promotions");
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
-    // FIXME add veirfyUser
+  .delete(corsWithOptions, verifyUser, (req, res, next) => {
+    // FIXME add verifyUser
     // FIXME add req.query
     Promo.remove({})
       .then((resp) => {
@@ -60,13 +60,13 @@ PromoRoute.route("/:promoId")
       })
       .catch((err) => next(err));
   })
-  .post(corsWithOptions, veirfyUser, (req, res, next) => {
+  .post(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end(
       "POST operation not supported on /promotions/" + req.params.promoId
     );
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, verifyUser, (req, res, next) => {
     Promo.findByIdAndUpdate(
       req.params.promoId,
       { $set: req.body },
@@ -79,7 +79,7 @@ PromoRoute.route("/:promoId")
       })
       .catch((err) => next(err));
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, verifyUser, (req, res, next) => {
     Promo.findByIdAndRemove(req.params.promoId)
       .then((promo) => {
         res.statusCode = 200;

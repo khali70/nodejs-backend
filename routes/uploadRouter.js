@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { veirfyUser, verifyAdmin } = require("../auth");
+const { verifyUser, verifyAdmin } = require("../auth");
 const { corsWithOptions, cors } = require("./CORS");
 
 // configuer express route
@@ -43,20 +43,20 @@ uploadRouter
   .options(corsWithOptions, (req, res) => {
     res.sendStatus(200);
   })
-  .get(cors, veirfyUser, (req, res, next) => {
+  .get(cors, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("GET operation not supported on /imageUpload");
   })
-  .post(corsWithOptions, veirfyUser, upload.single("imageFile"), (req, res) => {
+  .post(corsWithOptions, verifyUser, upload.single("imageFile"), (req, res) => {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
     res.json(req.file);
   })
-  .put(corsWithOptions, veirfyUser, (req, res, next) => {
+  .put(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /imageUpload");
   })
-  .delete(corsWithOptions, veirfyUser, (req, res, next) => {
+  .delete(corsWithOptions, verifyUser, (req, res, next) => {
     res.statusCode = 403;
     res.end("DELETE operation not supported on /imageUpload");
   });
