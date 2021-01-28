@@ -241,7 +241,7 @@ fav.save().then((fav) => {
     .populate("dishes")
     .then((fav) => {
       if (fav == null) {
-        let err = new Error("adding the dish falied");
+        let err = new Error("adding the dish failed");
         err.status = 404;
         throw err;
       } else {
