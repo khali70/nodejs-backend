@@ -1,32 +1,58 @@
+/**
+ * auth
+ */
+
+// passport for auth handler
 const passport = require("passport");
-// user schema
-const User = require("./model/user");
+/**
+ * strategy fo Oauth
+ */
 // local strategy
-const LocalStartegy = require("passport-local").Strategy;
+const LocalStrategy = require("passport-local").Strategy;
 // json web token strategy
 const JwtStrategy = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
-const jwt = require("jsonwebtoken");
-// facebook token startegy
+// facebook token strategy
 const FacebookTokenStrategy = require("passport-facebook-token");
+
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+
+const jwt = require("jsonwebtoken");
+
+// user schema
+const User = require("./model/user");
 require("dotenv").config();
 
 // add the local strategy to passport
-passport.use(new LocalStartegy(User.authenticate()));
-
+passport.use(new LocalStrategy(User.authenticate()));
+// add session auth
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// the genrated token
+// the generated token
 exports.getToken = (user) => {
   return jwt.sign(user, process.env.KEY, { expiresIn: 86400 });
 };
+
+/**
+ * passport jwt
+ * - extractJwt => to extract jwt from auth header as bearer token
+ * - strategy => to be add jwt to passport
+ */
+
 // the options for json web token strategy
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.KEY,
 };
-// ? the json web token that make the server user the token to handle traffic from both mobile and web
+
+/**
+ *
+ * add jwt to passport
+ *
+ * the json web token that make the
+ * server use the token to handle
+ * traffic from both mobile and web
+ */
 exports.jwtPassport = passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
     User.findOne({ _id: jwt_payload._id }, (err, user) => {
@@ -40,7 +66,9 @@ exports.jwtPassport = passport.use(
     });
   })
 );
-exports.veirfyUser = passport.authenticate("jwt", { session: false });
+
+exports.verifyUser = passport.authenticate("jwt", { session: false });
+
 exports.verifyAdmin = (req, res, next) => {
   if (req.user.admin) {
     return next();

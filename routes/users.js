@@ -42,9 +42,15 @@ router.get(
 
 // signup new user
 router.post("/signup", corsWithOptions, (req, res, next) => {
+  // use passport to register new user
   User.register(
+    // make the new user
     new User({ username: req.body.username }),
+
+    // the password of the user
     req.body.password,
+
+    // the call back
     (err, user) => {
       if (err) {
         res.statusCode = 500;
@@ -54,18 +60,22 @@ router.post("/signup", corsWithOptions, (req, res, next) => {
         err.status = 403;
         next(err);
       } else {
+        // add extra info to the user
         if (req.body.firstname) {
           user.firstname = req.body.firstname;
         }
         if (req.body.lastname) {
           user.lastname = req.body.lastname;
         }
+
+        // save the info added to the user
         user.save((err, user) => {
           if (err) {
             res.statusCode = 500;
             res.setHeader("Content-Type", "application/json");
             res.json({ err });
           } else {
+            // authenticate the added user
             passport.authenticate("local")(req, res, () => {
               res.statusCode = 200;
               res.setHeader("Content-Type", "application/json");
