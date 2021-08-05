@@ -6,3 +6,4 @@ node-mongoos
 config.js
 .env
 public/images/
+*.i.*

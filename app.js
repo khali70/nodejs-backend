@@ -36,7 +36,7 @@ const path = require("path");
 require("dotenv").config();
 
 // configure connection to the server
-const url = process.env.MONGO_URL;
+const url = process.env.MONGO_CLOUD_URL;
 const connect = mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
